@@ -1,0 +1,448 @@
+/* Global Reset & Root Variables */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --primary-color: #0a3d62;
+  --secondary-color: #2980b9;
+  --accent-color: #62b6cb;
+  --light-bg: #f4f4f4;
+  --white: #fff;
+  --text-color: #333;
+  --link-color: #2980b9;
+  --link-hover-color: #bfd5e2;
+}
+
+/* Base Styles */
+html {
+  scroll-behavior: smooth;
+  min-height: 100%;
+}
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--light-bg);
+  color: var(--text-color);
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Link Styles */
+a {
+  text-decoration: none;
+  color: var(--link-color);
+  transition: color 0.3s ease;
+}
+a:hover {
+  color: var(--link-hover-color);
+}
+
+/* Header & Navigation */
+header {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: var(--white);
+  padding: 1.5rem 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+.header-container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+header h1 {
+  font-size: 2.8rem;
+  margin-bottom: 0.5rem;
+}
+
+
+/* Desktop Navigation - Visible on larger screens */
+.desktop-nav {
+  display: flex;
+}
+.desktop-nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.desktop-nav ul li {
+  margin: 0 1rem;
+}
+.desktop-nav ul li a {
+  color: var(--white, #fff);
+  font-weight: 500;
+  padding: 0.3rem 0;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
+.desktop-nav ul li a:hover,
+.desktop-nav ul li a.active {
+  border-bottom: 2px solid var(--accent-color, #62b6cb);
+}
+
+/* Mobile Navigation - Hamburger Icon */
+.mobile-menu-icon {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 4px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1500;
+}
+.mobile-menu-icon span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: var(--white, #fff);
+  transition: background 0.3s ease;
+}
+
+/* Overlay Menu for Mobile */
+.overlay-menu {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 61, 98, 0.95);
+  z-index: 2000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.overlay-menu.active {
+  display: block;
+  opacity: 1;
+}
+.overlay-nav {
+  list-style: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 80%;
+  max-width: 400px;
+}
+.overlay-nav li {
+  margin: 1rem 0;
+}
+.overlay-nav li a {
+  color: #fff;
+  font-size: 2rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.overlay-nav li a:hover {
+  color: var(--accent-color, #62b6cb);
+}
+.overlay-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 3rem;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  z-index: 2100;
+}
+.overlay-close:hover {
+  color: var(--accent-color, #62b6cb);
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none;
+  }
+  .mobile-menu-icon {
+    display: flex;
+  }
+}
+
+
+
+
+
+
+
+/* Main Content Container */
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 2rem auto;
+  background: var(--white);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  flex: 1;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.hero h2 {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+.hero p {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+}
+.btn {
+  background: var(--secondary-color);
+  color: var(--white);
+  padding: 0.9rem 1.8rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-size: 1rem;
+}
+.btn:hover {
+  background: var(--primary-color);
+}
+
+/* Features Section */
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+.features article {
+  flex: 1;
+  min-width: 250px;
+  padding: 1rem;
+  background: var(--white);
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+.features article:hover {
+  transform: translateY(-4px);
+}
+.features article h3 {
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+  font-size: 1.5rem;
+}
+.features article p {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+/* New Styles for Unified Headings and Tool Links */
+
+/* Section Headings */
+main.container h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #222;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+}
+
+main.container h3 {
+  font-size: 24px;
+  margin: 30px 0 20px;
+  color: #007bff;
+  border-left: 4px solid #007bff;
+  padding-left: 10px;
+}
+
+/* Tool List Styles */
+.tool-list {
+  list-style: none;
+  margin: 20px 0;
+  padding: 0;
+}
+
+.tool-list li {
+  margin-bottom: 10px;
+}
+
+.tool-list li a {
+  text-decoration: none;
+  font-size: 16px;
+  color: #007bff;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.tool-list li a:hover {
+  color: #0056b3;
+  border-color: #0056b3;
+  background-color: #f0f8ff;
+}
+
+
+/* Blog Section */
+.blog-post {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+.blog-post h3 {
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  font-size: 1.6rem;
+}
+
+/* Forms (Contact, Newsletter, etc.) */
+form label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: 500;
+  font-size: 1rem;
+}
+form input[type="text"],
+form input[type="email"],
+form textarea {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+form button {
+  margin-top: 1rem;
+  background: var(--secondary-color);
+  color: var(--white);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+form button:hover {
+  background: var(--primary-color);
+}
+
+/* Sticky Footer */
+footer {
+  background: var(--primary-color);
+  color: var(--white);
+  padding: 2rem 1rem;
+  font-size: 0.9rem;
+  margin-top: auto;
+}
+.footer-container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: space-between;
+}
+
+/* Footer Sections */
+.footer-section {
+  flex: 1;
+  min-width: 250px;
+}
+.footer-section h4 {
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: var(--accent-color);
+  border-bottom: 1px solid var(--accent-color);
+  padding-bottom: 0.5rem;
+  text-align: center;
+}
+
+/* Our Company Section */
+.footer-section.company p {
+  text-align: left;
+  margin: 0 1rem;
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+/* Connect With Us Section */
+.footer-section.contact ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+.footer-section.contact ul li {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+.footer-section.contact ul li a {
+  color: #d1e8f2;
+  transition: color 0.3s ease;
+}
+.footer-section.contact ul li a:hover {
+  color: #fff;
+}
+
+/* Explore Section with Two-Column Layout */
+.footer-section.explore .footer-explore {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  text-align: left;
+}
+.footer-section.explore .footer-explore a {
+  color: #d1e8f2;
+  font-size: 0.9rem;
+  padding: 0.3rem 0;
+  border-radius: 4px;
+  transition: background 0.3s ease, color 0.3s ease;
+  text-align: left;
+}
+.footer-section.explore .footer-explore a:hover {
+  background: var(--accent-color);
+  color: var(--white);
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  text-align: center;
+  margin-top: 2rem;
+  border-top: 1px solid #ccc;
+  padding-top: 1rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2rem;
+  }
+  .hero h2 {
+    font-size: 2rem;
+  }
+  .hero p {
+    font-size: 1rem;
+  }
+  nav ul li {
+    margin: 0 0.5rem;
+  }
+  .features, .footer-container {
+    flex-direction: column;
+    align-items: center;
+  }
+}

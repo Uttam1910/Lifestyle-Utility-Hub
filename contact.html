@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact - Lifestyle Utility Hub</title>
+  <meta name="description" content="Get in touch with us for inquiries or feedback." />
+  <meta name="keywords" content="contact, inquiries, feedback" />
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header>
+    <div class="header-container">
+      <h1>Lifestyle Utility Hub</h1>
+      <!-- Desktop Navigation -->
+      <nav class="desktop-nav">
+        <ul>
+          <li><a href="index.html" >Home</a></li>
+          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="tools.html">Tools</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html"class="active">Contact</a></li>
+          <li><a href="privacy-policy.html">Privacy</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="cookie-policy.html">Cookie Policy</a></li>
+        </ul>
+      </nav>
+      <!-- Mobile Hamburger Icon (Visible on Mobile Only) -->
+      <div class="mobile-menu-icon" id="mobile-menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Full-Screen Overlay Navigation for Mobile -->
+  <div id="overlay-menu" class="overlay-menu">
+    <ul class="overlay-nav">
+      <li><a href="index.html" >Home</a></li>
+      <li><a href="about-us.html">About Us</a></li>
+      <li><a href="tools.html">Tools</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html"class="active">Contact</a></li>
+      <li><a href="privacy-policy.html">Privacy</a></li>
+      <li><a href="terms.html">Terms</a></li>
+      <li><a href="cookie-policy.html">Cookie Policy</a></li>
+    </ul>
+    <div class="overlay-close" id="overlay-close">&times;</div>
+  </div>
+  
+  
+
+  <main class="container">
+    <h2>Contact Us</h2>
+    <p>Please fill out the form below to send us your inquiries or feedback.</p>
+    <form id="contactForm" action="#" method="post">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" placeholder="Your name" required />
+      
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" placeholder="Your email address" required />
+      
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" rows="5" placeholder="Your message..." required></textarea>
+      
+      <button type="submit">Send Message</button>
+    </form>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section company">
+        <h4>Our Company</h4>
+        <p>
+          Lifestyle Utility Hub is dedicated to empowering your daily routine with innovative tools and engaging content. We believe in quality, simplicity, and continuous innovation to help you live your best life.
+        </p>
+      </div>
+      <div class="footer-section explore">
+        <h4>Explore</h4>
+        <div class="footer-explore">
+          <a href="index.html">Home</a>
+          <a href="about-us.html">About Us</a>
+          <a href="tools.html">Tools</a>
+          <a href="blog.html">Blog</a>
+          <a href="contact.html">Contact</a>
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms.html">Terms &amp; Conditions</a>
+          <a href="cookie-policy.html">Cookie Policy</a>
+        </div>
+      </div>
+      <div class="footer-section contact">
+        <h4>Connect With Us</h4>
+        <ul>
+          <li>Email: support@lifestylehub.com</li>
+          <li>Phone: +1 800 123 4567</li>
+          <li>
+            Social:
+            <a href="#">Facebook</a> |
+            <a href="#">Twitter</a> |
+            <a href="#">Instagram</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Lifestyle Utility Hub. All rights reserved. Crafted with passion and innovation.</p>
+    </div>
+  </footer>
+  
+  
+
+  <script src="scripts.js"></script>
+</body>
+</html>
