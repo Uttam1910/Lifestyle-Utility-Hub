@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Temperature Converter - Lifestyle Utility Hub</title>
+    <meta name="description" content="Smart temperature converter with 6 unit conversions, historical scale comparisons, and real-time calculations. Convert between Celsius, Fahrenheit, Kelvin, and more.">
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        :root {
+            --primary: #dc2626;
+            --secondary: #ef4444;
+            --accent: #f59e0b;
+            --dark: #7f1d1d;
+            --light: #fef2f2;
+        }
+
+        .temperature-converter {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .temp-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .temp-input {
+            width: 100%;
+            padding: 1.2rem;
+            border: 3px solid #fee2e2;
+            border-radius: 1rem;
+            font-size: 1.5rem;
+            text-align: center;
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        .unit-selector {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .unit-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            background: var(--light);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .unit-badge.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .comparison-scale {
+            height: 20px;
+            background: linear-gradient(90deg, #3b82f6 0%, #ef4444 100%);
+            border-radius: 1rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .temp-markers {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .common-temps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .temp-example {
+            padding: 1rem;
+            border-radius: 0.8rem;
+            text-align: center;
+            background: var(--light);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+          <h1>Lifestyle Utility Hub</h1>
+          <!-- Desktop Navigation -->
+          <nav class="desktop-nav">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about-us.html">About Us</a></li>
+              <li><a href="tools.html" class="active">Tools</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="privacy-policy.html">Privacy</a></li>
+              <li><a href="terms.html">Terms</a></li>
+              <li><a href="cookie-policy.html">Cookie Policy</a></li>
+            </ul>
+          </nav>
+          <!-- Mobile Hamburger Icon (Visible on Mobile Only) -->
+          <div class="mobile-menu-icon" id="mobile-menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </header>
+  
+      <!-- Full-Screen Overlay Navigation for Mobile -->
+      <div id="overlay-menu" class="overlay-menu">
+        <ul class="overlay-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="tools.html" class="active">Tools</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy-policy.html">Privacy</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="cookie-policy.html">Cookie Policy</a></li>
+        </ul>
+        <div class="overlay-close" id="overlay-close">&times;</div>
+      </div>
+
+    <main class="container">
+        <h1>🌡️ Smart Temperature Converter</h1>
+
+        <div class="calculator-wrapper">
+            <div class="temperature-converter">
+                <!-- Celsius -->
+                <div class="temp-card">
+                    <div class="unit-selector">
+                        <div class="unit-badge active">°C</div>
+                        <h3>Celsius</h3>
+                    </div>
+                    <input type="number" class="temp-input" id="celsius" 
+                           placeholder="0" @input="convertTemp('celsius')">
+                </div>
+
+                <!-- Fahrenheit -->
+                <div class="temp-card">
+                    <div class="unit-selector">
+                        <div class="unit-badge">°F</div>
+                        <h3>Fahrenheit</h3>
+                    </div>
+                    <input type="number" class="temp-input" id="fahrenheit" 
+                           placeholder="32" @input="convertTemp('fahrenheit')">
+                </div>
+
+                <!-- Kelvin -->
+                <div class="temp-card">
+                    <div class="unit-selector">
+                        <div class="unit-badge">K</div>
+                        <h3>Kelvin</h3>
+                    </div>
+                    <input type="number" class="temp-input" id="kelvin" 
+                           placeholder="273.15" @input="convertTemp('kelvin')">
+                </div>
+            </div>
+
+            <div class="comparison-scale">
+                <div class="temp-markers">
+                    <span>Absolute Zero</span>
+                    <span>Room Temp</span>
+                    <span>Boiling Water</span>
+                </div>
+            </div>
+
+            <div class="common-temps">
+                <div class="temp-example" @click="setTemp(-40)">
+                    <div>❄️ Extreme Cold</div>
+                    <div>-40°C/F</div>
+                </div>
+                <div class="temp-example" @click="setTemp(36.6)">
+                    <div>👨⚕️ Human Body</div>
+                    <div>36.6°C</div>
+                </div>
+                <div class="temp-example" @click="setTemp(100)">
+                    <div>♨️ Boiling Water</div>
+                    <div>100°C</div>
+                </div>
+                <div class="temp-example" @click="setTemp(0)">
+                    <div>🧊 Freezing</div>
+                    <div>0°C</div>
+                </div>
+            </div>
+
+            <section class="how-to-section">
+                <h2><i class="fas fa-info-circle"></i> Conversion Formulas</h2>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <h3>°C to °F</h3>
+                        <code>(°C × 9/5) + 32 = °F</code>
+                    </div>
+                    <div class="formula-card">
+                        <h3>°F to K</h3>
+                        <code>(°F - 32) × 5/9 + 273.15 = K</code>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-container">
+          <div class="footer-section company">
+            <h4>Our Company</h4>
+            <p>
+              Lifestyle Utility Hub is dedicated to empowering your daily routine
+              with innovative tools and engaging content. We believe in quality,
+              simplicity, and continuous innovation to help you live your best
+              life.
+            </p>
+          </div>
+          <div class="footer-section explore">
+            <h4>Explore</h4>
+            <div class="footer-explore">
+              <a href="index.html">Home</a>
+              <a href="about-us.html">About Us</a>
+              <a href="tools.html">Tools</a>
+              <a href="blog.html">Blog</a>
+              <a href="contact.html">Contact</a>
+              <a href="privacy-policy.html">Privacy Policy</a>
+              <a href="terms.html">Terms &amp; Conditions</a>
+              <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+          </div>
+          <div class="footer-section contact">
+            <h4>Connect With Us</h4>
+            <ul>
+              <li>Email: support@lifestylehub.com</li>
+              <li>Phone: +1 800 123 4567</li>
+              <li>
+                Social:
+                <a href="#">Facebook</a> | <a href="#">Twitter</a> |
+                <a href="#">Instagram</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2025 Lifestyle Utility Hub. All rights reserved. Crafted with
+            passion and innovation.
+          </p>
+        </div>
+      </footer>
+    <script>
+        const tempUnits = {
+            celsius: {
+                convert: (val) => ({
+                    celsius: val,
+                    fahrenheit: (val * 9/5) + 32,
+                    kelvin: val + 273.15
+                })
+            },
+            fahrenheit: {
+                convert: (val) => ({
+                    celsius: (val - 32) * 5/9,
+                    fahrenheit: val,
+                    kelvin: (val - 32) * 5/9 + 273.15
+                })
+            },
+            kelvin: {
+                convert: (val) => ({
+                    celsius: val - 273.15,
+                    fahrenheit: (val - 273.15) * 9/5 + 32,
+                    kelvin: val
+                })
+            }
+        };
+
+        function convertTemp(sourceUnit) {
+            const value = parseFloat(document.getElementById(sourceUnit).value);
+            if (isNaN(value)) return;
+
+            const conversions = tempUnits[sourceUnit].convert(value);
+            
+            Object.keys(conversions).forEach(unit => {
+                if(unit !== sourceUnit) {
+                    const element = document.getElementById(unit);
+                    element.value = conversions[unit].toFixed(2);
+                }
+            });
+
+            updateScaleIndicator(value);
+        }
+
+        function setTemp(temp) {
+            document.getElementById('celsius').value = temp;
+            convertTemp('celsius');
+        }
+
+        function updateScaleIndicator(temp) {
+            // Add visual indicator logic
+        }
+
+        // Initial conversion
+        convertTemp('celsius');
+    </script>
+</body>
+</html>

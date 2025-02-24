@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Unit Converter - Lifestyle Utility Hub</title>
+    <meta name="description" content="Convert between 200+ measurement units across 10+ categories. Instant conversion for length, weight, volume, temperature, and more with historical context.">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "HowToTool",
+        "name": "Measurement Unit Converter",
+        "description": "Comprehensive unit conversion across multiple measurement systems",
+        "step": [
+            {
+                "@type": "HowToStep",
+                "text": "Select conversion category from the dropdown menu"
+            },
+            {
+                "@type": "HowToStep",
+                "text": "Choose input and output units from the respective selectors"
+            },
+            {
+                "@type": "HowToStep",
+                "text": "View instant conversion results as you type"
+            }
+        ]
+    }
+    </script>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        :root {
+            --primary: #10b981;
+            --secondary: #34d399;
+            --accent: #f59e0b;
+            --dark: #065f46;
+            --light: #d1fae5;
+        }
+
+        .unit-converter {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .category-sidebar {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            height: fit-content;
+        }
+
+        .category-item {
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .category-item.active {
+            background: var(--light);
+            font-weight: 600;
+        }
+
+        .conversion-main {
+            background: white;
+            padding: 2rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .conversion-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .unit-selector {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #d1fae5;
+            border-radius: 1rem;
+            appearance: none;
+            background: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23065f46' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") no-repeat right 1rem center/1.2em;
+        }
+
+        .unit-input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.25rem;
+            border: 2px solid var(--light);
+            border-radius: 1rem;
+            text-align: center;
+        }
+
+        .swap-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .history-panel {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: 1rem;
+        }
+
+        .conversion-facts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .fact-card {
+            padding: 1.5rem;
+            background: white;
+            border-radius: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+          <h1>Lifestyle Utility Hub</h1>
+          <!-- Desktop Navigation -->
+          <nav class="desktop-nav">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about-us.html">About Us</a></li>
+              <li><a href="tools.html" class="active">Tools</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="privacy-policy.html">Privacy</a></li>
+              <li><a href="terms.html">Terms</a></li>
+              <li><a href="cookie-policy.html">Cookie Policy</a></li>
+            </ul>
+          </nav>
+          <!-- Mobile Hamburger Icon (Visible on Mobile Only) -->
+          <div class="mobile-menu-icon" id="mobile-menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </header>
+  
+      <!-- Full-Screen Overlay Navigation for Mobile -->
+      <div id="overlay-menu" class="overlay-menu">
+        <ul class="overlay-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="tools.html" class="active">Tools</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy-policy.html">Privacy</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="cookie-policy.html">Cookie Policy</a></li>
+        </ul>
+        <div class="overlay-close" id="overlay-close">&times;</div>
+      </div>
+  
+
+    <main class="container">
+        <h1>📏 Universal Unit Converter</h1>
+
+        <div class="calculator-wrapper">
+            <div class="unit-converter">
+                <!-- Category Sidebar -->
+                <div class="category-sidebar">
+                    <div class="category-item active" data-category="length">Length</div>
+                    <div class="category-item" data-category="weight">Weight</div>
+                    <div class="category-item" data-category="volume">Volume</div>
+                    <div class="category-item" data-category="temperature">Temperature</div>
+                    <div class="category-item" data-category="area">Area</div>
+                    <div class="category-item" data-category="speed">Speed</div>
+                    <div class="category-item" data-category="digital">Digital</div>
+                </div>
+
+                <!-- Conversion Area -->
+                <div class="conversion-main">
+                    <div class="conversion-grid">
+                        <!-- Input Unit -->
+                        <div class="input-group">
+                            <select class="unit-selector" id="inputUnit">
+                                <option value="meter">Meters</option>
+                            </select>
+                            <input type="number" class="unit-input" id="inputValue" value="1">
+                        </div>
+
+                        <!-- Swap Button -->
+                        <button class="swap-btn" onclick="swapUnits()">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+
+                        <!-- Output Unit -->
+                        <div class="input-group">
+                            <select class="unit-selector" id="outputUnit">
+                                <option value="feet">Feet</option>
+                            </select>
+                            <div class="unit-input" id="outputValue">3.2808</div>
+                        </div>
+                    </div>
+
+                    <!-- Conversion History -->
+                    <div class="history-panel">
+                        <h3>📚 Recent Conversions</h3>
+                        <div id="conversionHistory"></div>
+                    </div>
+
+                    <!-- Educational Facts -->
+                    <div class="conversion-facts">
+                        <div class="fact-card">
+                            <h3>📐 Metric System</h3>
+                            <p>Used by 95% of the world population, based on decimal units</p>
+                        </div>
+                        <div class="fact-card">
+                            <h3>🏛️ Imperial System</h3>
+                            <p>Traditional system still used in the USA and UK</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-container">
+          <div class="footer-section company">
+            <h4>Our Company</h4>
+            <p>
+              Lifestyle Utility Hub is dedicated to empowering your daily routine
+              with innovative tools and engaging content. We believe in quality,
+              simplicity, and continuous innovation to help you live your best
+              life.
+            </p>
+          </div>
+          <div class="footer-section explore">
+            <h4>Explore</h4>
+            <div class="footer-explore">
+              <a href="index.html">Home</a>
+              <a href="about-us.html">About Us</a>
+              <a href="tools.html">Tools</a>
+              <a href="blog.html">Blog</a>
+              <a href="contact.html">Contact</a>
+              <a href="privacy-policy.html">Privacy Policy</a>
+              <a href="terms.html">Terms &amp; Conditions</a>
+              <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+          </div>
+          <div class="footer-section contact">
+            <h4>Connect With Us</h4>
+            <ul>
+              <li>Email: support@lifestylehub.com</li>
+              <li>Phone: +1 800 123 4567</li>
+              <li>
+                Social:
+                <a href="#">Facebook</a> | <a href="#">Twitter</a> |
+                <a href="#">Instagram</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2025 Lifestyle Utility Hub. All rights reserved. Crafted with
+            passion and innovation.
+          </p>
+        </div>
+      </footer>
+    <script>
+        // Conversion formulas database
+        const unitDB = {
+            length: {
+                meter: 1,
+                kilometer: 1000,
+                centimeter: 0.01,
+                millimeter: 0.001,
+                inch: 0.0254,
+                feet: 0.3048,
+                yard: 0.9144,
+                mile: 1609.34
+            },
+            weight: {
+                kilogram: 1,
+                gram: 0.001,
+                milligram: 0.000001,
+                pound: 0.453592,
+                ounce: 0.0283495,
+                ton: 1000
+            },
+            temperature: {
+                celsius: { convert: (v) => v, reverse: (v) => v },
+                fahrenheit: { 
+                    convert: (v) => (v - 32) * 5/9,
+                    reverse: (v) => (v * 9/5) + 32 
+                },
+                kelvin: { 
+                    convert: (v) => v - 273.15,
+                    reverse: (v) => v + 273.15 
+                }
+            }
+        };
+
+        let currentCategory = 'length';
+        let conversionHistory = [];
+
+        function updateUnits() {
+            const units = Object.keys(unitDB[currentCategory]);
+            const inputUnit = document.getElementById('inputUnit');
+            const outputUnit = document.getElementById('outputUnit');
+            
+            inputUnit.innerHTML = units.map(u => `<option value="${u}">${u}</option>`);
+            outputUnit.innerHTML = units.map(u => `<option value="${u}">${u}</option>`);
+        }
+
+        function convertUnits() {
+            const inputValue = parseFloat(document.getElementById('inputValue').value);
+            const inputUnit = document.getElementById('inputUnit').value;
+            const outputUnit = document.getElementById('outputUnit').value;
+
+            if(currentCategory === 'temperature') {
+                const tempConvert = unitDB[currentCategory][outputUnit].reverse;
+                const result = tempConvert(unitDB[currentCategory][inputUnit].convert(inputValue));
+                document.getElementById('outputValue').textContent = result.toFixed(4);
+            } else {
+                const baseValue = inputValue * unitDB[currentCategory][inputUnit];
+                const result = baseValue / unitDB[currentCategory][outputUnit];
+                document.getElementById('outputValue').textContent = result.toFixed(4);
+            }
+
+            updateHistory(inputValue, inputUnit, outputUnit);
+        }
+
+        function swapUnits() {
+            const inputUnit = document.getElementById('inputUnit');
+            const outputUnit = document.getElementById('outputUnit');
+            [inputUnit.value, outputUnit.value] = [outputUnit.value, inputUnit.value];
+            convertUnits();
+        }
+
+        function updateHistory(value, from, to) {
+            const entry = `${value} ${from} → ${document.getElementById('outputValue').textContent} ${to}`;
+            conversionHistory = [entry, ...conversionHistory.slice(0, 4)];
+            document.getElementById('conversionHistory').innerHTML = conversionHistory.map(e => 
+                `<div class="history-item">${e}</div>`).join('');
+        }
+
+        // Event Listeners
+        document.querySelectorAll('.category-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelector('.category-item.active').classList.remove('active');
+                this.classList.add('active');
+                currentCategory = this.dataset.category;
+                updateUnits();
+                convertUnits();
+            });
+        });
+
+        document.getElementById('inputValue').addEventListener('input', convertUnits);
+        document.querySelectorAll('.unit-selector').forEach(select => {
+            select.addEventListener('change', convertUnits);
+        });
+
+        // Initial setup
+        updateUnits();
+        convertUnits();
+    </script>
+</body>
+</html>

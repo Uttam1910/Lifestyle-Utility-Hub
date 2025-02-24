@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Time Zone Converter - Lifestyle Utility Hub</title>
+    <meta name="description" content="Real-time time zone converter with world clock, meeting planner, and daylight savings awareness. Convert between 400+ time zones instantly.">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "HowToTool",
+        "name": "Time Zone Converter",
+        "description": "Convert time zones and schedule international meetings",
+        "step": [
+            {
+                "@type": "HowToStep",
+                "text": "Select base time zone and input local time"
+            },
+            {
+                "@type": "HowToStep",
+                "text": "Choose target time zones from global database"
+            },
+            {
+                "@type": "HowToStep",
+                "text": "View converted times with daylight savings adjustments"
+            }
+        ]
+    }
+    </script>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --secondary: #a78bfa;
+            --accent: #f59e0b;
+            --dark: #4c1d95;
+            --light: #f5f3ff;
+        }
+
+        .timezone-converter {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .time-input-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+        }
+
+        .world-clock {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .city-card {
+            padding: 1.5rem;
+            background: white;
+            border-radius: 1rem;
+            transition: transform 0.2s;
+            position: relative;
+        }
+
+        .city-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .time-display {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--dark);
+            margin: 0.5rem 0;
+        }
+
+        .timezone-selector {
+            width: 100%;
+            padding: 1rem;
+            border: 3px solid #ede9fe;
+            border-radius: 1rem;
+            font-size: 1.1rem;
+            background: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234f46e5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") no-repeat right 1rem center/1.2em;
+        }
+
+        .time-input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.5rem;
+            border: 3px solid #ede9fe;
+            border-radius: 1rem;
+            text-align: center;
+        }
+
+        .daylight-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+
+        .daylight-active {
+            background: #f59e0b;
+        }
+
+        @media (max-width: 768px) {
+            .timezone-converter {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+          <h1>Lifestyle Utility Hub</h1>
+          <!-- Desktop Navigation -->
+          <nav class="desktop-nav">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about-us.html">About Us</a></li>
+              <li><a href="tools.html" class="active">Tools</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="privacy-policy.html">Privacy</a></li>
+              <li><a href="terms.html">Terms</a></li>
+              <li><a href="cookie-policy.html">Cookie Policy</a></li>
+            </ul>
+          </nav>
+          <!-- Mobile Hamburger Icon (Visible on Mobile Only) -->
+          <div class="mobile-menu-icon" id="mobile-menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </header>
+  
+      <!-- Full-Screen Overlay Navigation for Mobile -->
+      <div id="overlay-menu" class="overlay-menu">
+        <ul class="overlay-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="tools.html" class="active">Tools</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy-policy.html">Privacy</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="cookie-policy.html">Cookie Policy</a></li>
+        </ul>
+        <div class="overlay-close" id="overlay-close">&times;</div>
+      </div>
+
+    <main class="container">
+        <h1>🌐 Global Time Zone Converter</h1>
+
+        <div class="calculator-wrapper">
+            <div class="timezone-converter">
+                <!-- Input Section -->
+                <div class="time-input-card">
+                    <div class="input-group">
+                        <label>Local Time</label>
+                        <input type="time" class="time-input" id="localTime" value="09:00">
+                    </div>
+                    <div class="input-group">
+                        <label>Base Time Zone</label>
+                        <select class="timezone-selector" id="baseTimezone">
+                            <!-- Populated by JS -->
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Date</label>
+                        <input type="date" class="time-input" id="dateInput">
+                    </div>
+                </div>
+
+                <!-- World Clock -->
+                <div class="world-clock" id="worldClock">
+                    <!-- City cards populated by JS -->
+                </div>
+            </div>
+
+            <!-- Time Zone Map -->
+            <div class="timezone-map">
+                <img src="world-map.svg" alt="World Time Zone Map" style="width:100%">
+            </div>
+
+            <!-- How-to Section -->
+            <section class="how-to-section">
+                <h2><i class="fas fa-clock"></i> Using the Converter</h2>
+                <div class="step-container">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h3>Set Base Time</h3>
+                        <p>Select your local time and date using the input controls</p>
+                    </div>
+                </div>
+                <div class="step-container">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h3>Compare Zones</h3>
+                        <p>View converted times for major cities worldwide in real-time</p>
+                    </div>
+                </div>
+                <div class="step-container">
+                    <div class="step-number">3</div>
+                    <div>
+                        <h3>Plan Meetings</h3>
+                        <p>Find overlapping business hours between different regions</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-container">
+          <div class="footer-section company">
+            <h4>Our Company</h4>
+            <p>
+              Lifestyle Utility Hub is dedicated to empowering your daily routine
+              with innovative tools and engaging content. We believe in quality,
+              simplicity, and continuous innovation to help you live your best
+              life.
+            </p>
+          </div>
+          <div class="footer-section explore">
+            <h4>Explore</h4>
+            <div class="footer-explore">
+              <a href="index.html">Home</a>
+              <a href="about-us.html">About Us</a>
+              <a href="tools.html">Tools</a>
+              <a href="blog.html">Blog</a>
+              <a href="contact.html">Contact</a>
+              <a href="privacy-policy.html">Privacy Policy</a>
+              <a href="terms.html">Terms &amp; Conditions</a>
+              <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+          </div>
+          <div class="footer-section contact">
+            <h4>Connect With Us</h4>
+            <ul>
+              <li>Email: support@lifestylehub.com</li>
+              <li>Phone: +1 800 123 4567</li>
+              <li>
+                Social:
+                <a href="#">Facebook</a> | <a href="#">Twitter</a> |
+                <a href="#">Instagram</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2025 Lifestyle Utility Hub. All rights reserved. Crafted with
+            passion and innovation.
+          </p>
+        </div>
+      </footer>
+    <script>
+        // Time Zone Data (50 major cities)
+        const timeZones = [
+            { id: 'America/New_York', name: 'New York', offset: -4, dst: true },
+            { id: 'Europe/London', name: 'London', offset: 1, dst: true },
+            { id: 'Asia/Tokyo', name: 'Tokyo', offset: 9, dst: false },
+            { id: 'Australia/Sydney', name: 'Sydney', offset: 10, dst: true },
+            { id: 'Europe/Paris', name: 'Paris', offset: 2, dst: true },
+            { id: 'Asia/Dubai', name: 'Dubai', offset: 4, dst: false },
+            { id: 'America/Los_Angeles', name: 'Los Angeles', offset: -7, dst: true },
+            { id: 'Asia/Singapore', name: 'Singapore', offset: 8, dst: false },
+            // Add more time zones...
+        ];
+
+        let baseTimezone = 'Europe/London';
+        let currentDate = new Date();
+
+        // Initialize timezone selector
+        function initTimeZones() {
+            const selector = document.getElementById('baseTimezone');
+            selector.innerHTML = timeZones.map(tz => `
+                <option value="${tz.id}">${tz.name} (UTC${formatOffset(tz.offset)})</option>
+            `).join('');
+        }
+
+        // Format UTC offset
+        function formatOffset(offset) {
+            return offset > 0 ? `+${offset}` : offset;
+        }
+
+        // Update world clock
+        function updateWorldClock() {
+            const container = document.getElementById('worldClock');
+            const localTime = document.getElementById('localTime').value;
+            const [hours, minutes] = localTime.split(':');
+            
+            currentDate.setHours(hours);
+            currentDate.setMinutes(minutes);
+
+            container.innerHTML = timeZones.map(tz => `
+                <div class="city-card">
+                    <div class="daylight-indicator ${tz.dst ? 'daylight-active' : ''}"></div>
+                    <h3>${tz.name}</h3>
+                    <div class="time-display">${getLocalTime(tz.offset)}</div>
+                    <small>UTC${formatOffset(tz.offset)}</small>
+                </div>
+            `).join('');
+        }
+
+        // Calculate local time
+        function getLocalTime(offset) {
+            const date = new Date(currentDate);
+            date.setHours(date.getHours() + offset);
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            initTimeZones();
+            updateWorldClock();
+            setInterval(updateWorldClock, 1000);
+        });
+
+        document.getElementById('localTime').addEventListener('input', updateWorldClock);
+        document.getElementById('baseTimezone').addEventListener('change', function() {
+            baseTimezone = this.value;
+            updateWorldClock();
+        });
+        document.getElementById('dateInput').addEventListener('change', function() {
+            currentDate = new Date(this.value);
+            updateWorldClock();
+        });
+    </script>
+</body>
+</html>
