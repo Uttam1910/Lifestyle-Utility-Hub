@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debt Payoff Calculator - Lifestyle Utility Hub</title>
+    <meta name="description" content="Advanced debt repayment calculator with snowball/avalanche method comparisons, interest savings analysis, and customized payoff strategies. Get out of debt faster with professional financial tools.">
+    <meta name="keywords" content="debt calculator, debt snowball, debt avalanche, credit card payoff, loan repayment calculator">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "PayAction",
+        "name": "Debt Repayment Calculator",
+        "description": "Interactive debt payoff planner with multiple strategy comparisons and financial optimization",
+        "url": "https://yourdomain.com/debt-repayment-calculator.html"
+    }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        :root {
+            --primary: #dc2626;
+            --secondary: #ef4444;
+            --accent: #f59e0b;
+            --dark: #7f1d1d;
+            --light: #fee2e2;
+        }
+
+        .debt-list {
+            margin: 2rem 0;
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        .debt-item {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr auto;
+            gap: 1rem;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .strategy-tabs {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .strategy-tab {
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .strategy-tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .payment-timeline {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 1rem;
+        }
+
+        .timeline-bar {
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 6px;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .timeline-marker {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 6px;
+            position: absolute;
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+          <h1>Lifestyle Utility Hub</h1>
+          <!-- Desktop Navigation -->
+          <nav class="desktop-nav">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about-us.html">About Us</a></li>
+              <li><a href="tools.html" class="active">Tools</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="privacy-policy.html">Privacy</a></li>
+              <li><a href="terms.html">Terms</a></li>
+              <li><a href="cookie-policy.html">Cookie Policy</a></li>
+            </ul>
+          </nav>
+          <!-- Mobile Hamburger Icon (Visible on Mobile Only) -->
+          <div class="mobile-menu-icon" id="mobile-menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </header>
+  
+      <!-- Full-Screen Overlay Navigation for Mobile -->
+      <div id="overlay-menu" class="overlay-menu">
+        <ul class="overlay-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="tools.html" class="active">Tools</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy-policy.html">Privacy</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="cookie-policy.html">Cookie Policy</a></li>
+        </ul>
+        <div class="overlay-close" id="overlay-close">&times;</div>
+      </div>
+
+    <main class="container">
+        <h1><i class="fas fa-money-bill-wave"></i> Debt Payoff Calculator</h1>
+
+        <div class="calculator-wrapper">
+            <div class="debt-list" id="debtList">
+                <div class="debt-header">
+                    <h3>Your Debts</h3>
+                    <button onclick="addDebt()"><i class="fas fa-plus"></i> Add Debt</button>
+                </div>
+                <div class="debt-item header">
+                    <div>Debt Name</div>
+                    <div>Balance</div>
+                    <div>Interest Rate</div>
+                    <div>Min Payment</div>
+                    <div></div>
+                </div>
+                <div class="debt-items" id="debtItems">
+                    <!-- Dynamic debt items will be added here -->
+                </div>
+            </div>
+
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="monthlyPayment">Available Monthly Payment ($)</label>
+                    <input type="number" id="monthlyPayment" min="0" step="50" value="500">
+                </div>
+
+                <div class="strategy-tabs">
+                    <div class="strategy-tab active" onclick="setStrategy('snowball')">Snowball Method</div>
+                    <div class="strategy-tab" onclick="setStrategy('avalanche')">Avalanche Method</div>
+                </div>
+
+                <button onclick="calculatePayoff()">Calculate Payoff Plan</button>
+            </div>
+
+            <div class="results-section">
+                <h3>Payoff Results</h3>
+                <div class="result-item">
+                    <span>Total Debt:</span>
+                    <span id="totalDebt">$0.00</span>
+                </div>
+                <div class="result-item">
+                    <span>Total Interest:</span>
+                    <span id="totalInterest">$0.00</span>
+                </div>
+                <div class="result-item">
+                    <span>Payoff Time:</span>
+                    <span id="payoffTime">0 months</span>
+                </div>
+                <div class="result-item">
+                    <span>Interest Saved:</span>
+                    <span id="interestSaved">$0.00</span>
+                </div>
+
+                <div class="payment-timeline">
+                    <h4>Payoff Timeline</h4>
+                    <div class="timeline-bar">
+                        <div class="timeline-marker" id="timelineMarker"></div>
+                    </div>
+                    <div id="timelineLabels"></div>
+                </div>
+            </div>
+        </div>
+
+        <section class="detailed-info">
+            <div class="strategy-comparison">
+                <div class="info-card">
+                    <h3><i class="fas fa-snowflake"></i> Debt Snowball Method</h3>
+                    <ul>
+                        <li>Pay off smallest balances first</li>
+                        <li>Quick psychological wins</li>
+                        <li>May pay more interest overall</li>
+                        <li>Recommended for motivation</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-mountain"></i> Debt Avalanche Method</h3>
+                    <ul>
+                        <li>Pay off highest interest rates first</li>
+                        <li>Saves more money on interest</li>
+                        <li>Requires more discipline</li>
+                        <li>Mathematically optimal</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pro-tips">
+                <h3><i class="fas fa-lightbulb"></i> Debt Reduction Strategies</h3>
+                <ul>
+                    <li>Negotiate lower interest rates</li>
+                    <li>Consider balance transfer cards</li>
+                    <li>Automate payments</li>
+                    <li>Allocate windfalls to debt</li>
+                    <li>Track progress monthly</li>
+                </ul>
+            </div>
+
+            <div class="amortization-table">
+                <h3>Payment Schedule</h3>
+                <table id="paymentSchedule">
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Debt Paid</th>
+                            <th>Payment</th>
+                            <th>Interest</th>
+                            <th>Remaining</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scheduleBody"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-container">
+          <div class="footer-section company">
+            <h4>Our Company</h4>
+            <p>
+              Lifestyle Utility Hub is dedicated to empowering your daily routine
+              with innovative tools and engaging content. We believe in quality,
+              simplicity, and continuous innovation to help you live your best
+              life.
+            </p>
+          </div>
+          <div class="footer-section explore">
+            <h4>Explore</h4>
+            <div class="footer-explore">
+              <a href="index.html">Home</a>
+              <a href="about-us.html">About Us</a>
+              <a href="tools.html">Tools</a>
+              <a href="blog.html">Blog</a>
+              <a href="contact.html">Contact</a>
+              <a href="privacy-policy.html">Privacy Policy</a>
+              <a href="terms.html">Terms &amp; Conditions</a>
+              <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+          </div>
+          <div class="footer-section contact">
+            <h4>Connect With Us</h4>
+            <ul>
+              <li>Email: support@lifestylehub.com</li>
+              <li>Phone: +1 800 123 4567</li>
+              <li>
+                Social:
+                <a href="#">Facebook</a> | <a href="#">Twitter</a> |
+                <a href="#">Instagram</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2025 Lifestyle Utility Hub. All rights reserved. Crafted with
+            passion and innovation.
+          </p>
+        </div>
+      </footer>
+  
+    <script>
+        let debts = [];
+        let currentStrategy = 'snowball';
+
+        function addDebt() {
+            const debt = {
+                name: `Debt ${debts.length + 1}`,
+                balance: 0,
+                rate: 0,
+                minPayment: 0
+            };
+            debts.push(debt);
+            renderDebts();
+        }
+
+        function renderDebts() {
+            const container = document.getElementById('debtItems');
+            container.innerHTML = '';
+            
+            debts.forEach((debt, index) => {
+                const debtElement = document.createElement('div');
+                debtElement.className = 'debt-item';
+                debtElement.innerHTML = `
+                    <input type="text" value="${debt.name}" onchange="updateDebt(${index}, 'name', this.value)">
+                    <input type="number" value="${debt.balance}" onchange="updateDebt(${index}, 'balance', this.value)">
+                    <input type="number" value="${debt.rate}" step="0.1" onchange="updateDebt(${index}, 'rate', this.value)">
+                    <input type="number" value="${debt.minPayment}" onchange="updateDebt(${index}, 'minPayment', this.value)">
+                    <i class="fas fa-times" onclick="removeDebt(${index})"></i>
+                `;
+                container.appendChild(debtElement);
+            });
+        }
+
+        function updateDebt(index, field, value) {
+            debts[index][field] = field === 'name' ? value : parseFloat(value);
+        }
+
+        function removeDebt(index) {
+            debts.splice(index, 1);
+            renderDebts();
+        }
+
+        function setStrategy(strategy) {
+            currentStrategy = strategy;
+            document.querySelectorAll('.strategy-tab').forEach(tab => 
+                tab.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function calculatePayoff() {
+            const monthlyPayment = parseFloat(document.getElementById('monthlyPayment').value);
+            let payoffPlan;
+
+            if(currentStrategy === 'snowball') {
+                payoffPlan = calculateSnowball(debts, monthlyPayment);
+            } else {
+                payoffPlan = calculateAvalanche(debts, monthlyPayment);
+            }
+
+            updateResults(payoffPlan);
+        }
+
+        function calculateSnowball(debts, payment) {
+            // Implement debt snowball algorithm
+            // Returns payoff timeline, interest paid, etc.
+        }
+
+        function calculateAvalanche(debts, payment) {
+            // Implement debt avalanche algorithm
+        }
+
+        function updateResults(plan) {
+            document.getElementById('totalDebt').textContent = `$${plan.totalDebt.toFixed(2)}`;
+            document.getElementById('totalInterest').textContent = `$${plan.totalInterest.toFixed(2)}`;
+            document.getElementById('payoffTime').textContent = `${plan.months} months`;
+            document.getElementById('interestSaved').textContent = `$${plan.interestSaved.toFixed(2)}`;
+            
+            // Update timeline
+            document.getElementById('timelineMarker').style.width = 
+                `${(plan.currentMonth / plan.months) * 100}%`;
+            
+            // Update payment schedule
+            renderPaymentSchedule(plan.schedule);
+        }
+
+        function renderPaymentSchedule(schedule) {
+            let html = '';
+            schedule.forEach((month, index) => {
+                html += `<tr>
+                    <td>${index + 1}</td>
+                    <td>${month.debtName}</td>
+                    <td>$${month.payment.toFixed(2)}</td>
+                    <td>$${month.interest.toFixed(2)}</td>
+                    <td>$${month.remaining.toFixed(2)}</td>
+                </tr>`;
+            });
+            document.getElementById('scheduleBody').innerHTML = html;
+        }
+    </script>
+</body>
+</html>

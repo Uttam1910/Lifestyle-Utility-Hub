@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Growth Calculator - Lifestyle Utility Hub</title>
+    <meta name="description" content="Advanced investment calculator with compound interest visualization, inflation adjustment, and historical market comparisons. Analyze stock, mutual fund, and crypto returns.">
+    <meta name="keywords" content="investment calculator, ROI calculator, compound interest calculator, stock market calculator, portfolio growth">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "InvestmentOrDeposit",
+        "name": "Investment Return Calculator",
+        "description": "Professional-grade investment growth projection tool with multiple financial scenarios",
+        "url": "https://yourdomain.com/investment-return-calculator.html",
+        "feesAndCommissionsSpecification": "https://yourdomain.com/investment-fees"
+    }
+    </script>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        :root {
+            --primary: #059669;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #065f46;
+            --light: #ecfdf5;
+        }
+
+        .growth-chart {
+            height: 300px;
+            background: #f0fdf4;
+            border-radius: 1rem;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-bar {
+            width: 3%;
+            background: var(--primary);
+            position: absolute;
+            bottom: 0;
+            transition: height 0.8s ease;
+            margin: 0 1%;
+        }
+
+        .scenario-toggles {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .scenario-button {
+            padding: 0.8rem 1.5rem;
+            border: 2px solid var(--primary);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .scenario-button.active {
+            background: var(--primary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+          <h1>Lifestyle Utility Hub</h1>
+          <!-- Desktop Navigation -->
+          <nav class="desktop-nav">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about-us.html">About Us</a></li>
+              <li><a href="tools.html" class="active">Tools</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="privacy-policy.html">Privacy</a></li>
+              <li><a href="terms.html">Terms</a></li>
+              <li><a href="cookie-policy.html">Cookie Policy</a></li>
+            </ul>
+          </nav>
+          <!-- Mobile Hamburger Icon (Visible on Mobile Only) -->
+          <div class="mobile-menu-icon" id="mobile-menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </header>
+  
+      <!-- Full-Screen Overlay Navigation for Mobile -->
+      <div id="overlay-menu" class="overlay-menu">
+        <ul class="overlay-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="tools.html" class="active">Tools</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy-policy.html">Privacy</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="cookie-policy.html">Cookie Policy</a></li>
+        </ul>
+        <div class="overlay-close" id="overlay-close">&times;</div>
+      </div>
+
+
+    <main class="container">
+        <h1><i class="fas fa-chart-line"></i> Investment Growth Calculator</h1>
+
+        <div class="calculator-wrapper">
+            <div class="input-section">
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="initialInvestment">Initial Investment ($)</label>
+                        <input type="number" id="initialInvestment" min="0" step="1000" value="10000">
+                    </div>
+                    <div class="input-group">
+                        <label for="monthlyContribution">Monthly Contribution ($)</label>
+                        <input type="number" id="monthlyContribution" min="0" step="100" value="500">
+                    </div>
+                </div>
+
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="investmentYears">Investment Period (years)</label>
+                        <input type="number" id="investmentYears" min="1" max="50" value="10">
+                    </div>
+                    <div class="input-group">
+                        <label for="expectedReturn">Expected Annual Return (%)</label>
+                        <input type="number" id="expectedReturn" min="0" max="50" step="0.1" value="7">
+                    </div>
+                </div>
+
+                <div class="scenario-toggles">
+                    <div class="scenario-button active" onclick="updateScenario(7)">Conservative (7%)</div>
+                    <div class="scenario-button" onclick="updateScenario(10)">Moderate (10%)</div>
+                    <div class="scenario-button" onclick="updateScenario(13)">Aggressive (13%)</div>
+                </div>
+
+                <button onclick="calculateGrowth()">Project Growth</button>
+            </div>
+
+            <div class="results-section">
+                <h3>Projection Results</h3>
+                <div class="result-item">
+                    <span>Total Investment:</span>
+                    <span id="totalInvested">$0.00</span>
+                </div>
+                <div class="result-item">
+                    <span>Final Value:</span>
+                    <span id="finalValue">$0.00</span>
+                </div>
+                <div class="result-item">
+                    <span>Interest Earned:</span>
+                    <span id="interestEarned">$0.00</span>
+                </div>
+                <div class="growth-chart" id="growthChart"></div>
+            </div>
+        </div>
+
+        <section class="detailed-info">
+            <div class="comparison-chart">
+                <div class="info-card">
+                    <h3><i class="fas fa-history"></i> Historical Comparisons</h3>
+                    <p>Average annual returns:
+                        <ul>
+                            <li>S&P 500: ~10% (1957-2023)</li>
+                            <li>Real Estate: 8-12%</li>
+                            <li>Bonds: 4-6%</li>
+                            <li>Savings Accounts: 0.5-4%</li>
+                        </ul>
+                    </p>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-cube"></i> Compound Growth Factors</h3>
+                    <p>Key wealth-building elements:
+                        <ul>
+                            <li>Time Horizon (exponential impact)</li>
+                            <li>Consistent Contributions</li>
+                            <li>Reinvested Dividends</li>
+                            <li>Tax Efficiency</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+
+            <div class="pro-tips">
+                <h3><i class="fas fa-bullseye"></i> Investor Strategies</h3>
+                <ul>
+                    <li>Dollar-cost averaging reduces risk</li>
+                    <li>Rebalance portfolio annually</li>
+                    <li>Keep expense ratios below 0.5%</li>
+                    <li>Consider index funds for low fees</li>
+                </ul>
+            </div>
+
+            <div class="amortization-table">
+                <h3>Yearly Growth Breakdown</h3>
+                <table id="growthTable">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Contributions</th>
+                            <th>Interest</th>
+                            <th>Total Value</th>
+                        </tr>
+                    </thead>
+                    <tbody id="growthBody"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-container">
+          <div class="footer-section company">
+            <h4>Our Company</h4>
+            <p>
+              Lifestyle Utility Hub is dedicated to empowering your daily routine
+              with innovative tools and engaging content. We believe in quality,
+              simplicity, and continuous innovation to help you live your best
+              life.
+            </p>
+          </div>
+          <div class="footer-section explore">
+            <h4>Explore</h4>
+            <div class="footer-explore">
+              <a href="index.html">Home</a>
+              <a href="about-us.html">About Us</a>
+              <a href="tools.html">Tools</a>
+              <a href="blog.html">Blog</a>
+              <a href="contact.html">Contact</a>
+              <a href="privacy-policy.html">Privacy Policy</a>
+              <a href="terms.html">Terms &amp; Conditions</a>
+              <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+          </div>
+          <div class="footer-section contact">
+            <h4>Connect With Us</h4>
+            <ul>
+              <li>Email: support@lifestylehub.com</li>
+              <li>Phone: +1 800 123 4567</li>
+              <li>
+                Social:
+                <a href="#">Facebook</a> | <a href="#">Twitter</a> |
+                <a href="#">Instagram</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2025 Lifestyle Utility Hub. All rights reserved. Crafted with
+            passion and innovation.
+          </p>
+        </div>
+      </footer>
+    <script>
+        function calculateGrowth() {
+            const initial = parseFloat(document.getElementById('initialInvestment').value);
+            const monthly = parseFloat(document.getElementById('monthlyContribution').value);
+            const years = parseInt(document.getElementById('investmentYears').value);
+            const annualReturn = parseFloat(document.getElementById('expectedReturn').value)/100;
+
+            const months = years * 12;
+            const monthlyRate = annualReturn / 12;
+            let total = initial;
+            let totalInvested = initial;
+            let yearlyData = [];
+            
+            // Clear previous chart
+            document.getElementById('growthChart').innerHTML = '';
+            
+            for(let year = 1; year <= years; year++) {
+                let yearlyInterest = 0;
+                for(let month = 0; month < 12; month++) {
+                    total += monthly;
+                    totalInvested += monthly;
+                    const interest = total * monthlyRate;
+                    total += interest;
+                    yearlyInterest += interest;
+                }
+                yearlyData.push({
+                    year: year,
+                    invested: totalInvested,
+                    interest: yearlyInterest,
+                    total: total
+                });
+                
+                // Create chart bars
+                const bar = document.createElement('div');
+                bar.className = 'chart-bar';
+                bar.style.left = `${(year-1) * (100/years)}%`;
+                bar.style.height = `${(total / (initial * 10))}%`; // Simplified visualization
+                document.getElementById('growthChart').appendChild(bar);
+            }
+
+            // Update results
+            document.getElementById('totalInvested').textContent = `$${totalInvested.toFixed(2)}`;
+            document.getElementById('finalValue').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('interestEarned').textContent = `$${(total - totalInvested).toFixed(2)}`;
+
+            // Update growth table
+            let tableHTML = '';
+            yearlyData.forEach(data => {
+                tableHTML += `<tr>
+                    <td>${data.year}</td>
+                    <td>$${data.invested.toFixed(2)}</td>
+                    <td>$${data.interest.toFixed(2)}</td>
+                    <td>$${data.total.toFixed(2)}</td>
+                </tr>`;
+            });
+            document.getElementById('growthBody').innerHTML = tableHTML;
+        }
+
+        function updateScenario(returnRate) {
+            document.getElementById('expectedReturn').value = returnRate;
+            document.querySelectorAll('.scenario-button').forEach(btn => 
+                btn.classList.remove('active'));
+            event.target.classList.add('active');
+            calculateGrowth();
+        }
+    </script>
+</body>
+</html>

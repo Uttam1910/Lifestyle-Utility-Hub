@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savings Goal Planner - Lifestyle Utility Hub</title>
+    <meta name="description" content="Advanced savings calculator with progress tracking, interest compounding, and multiple goal management. Plan for emergencies, vacations, or major purchases effectively.">
+    <meta name="keywords" content="savings calculator, financial goals, emergency fund calculator, compound interest savings, money management">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FinancialProduct",
+        "name": "Savings Goal Calculator",
+        "description": "Interactive savings planning tool with progress visualization and financial strategy recommendations",
+        "url": "https://yourdomain.com/savings-goal-calculator.html",
+        "feesAndCommissionsSpecification": "https://yourdomain.com/savings-strategies"
+    }
+    </script>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        :root {
+            --primary: #0d9488;
+            --secondary: #14b8a6;
+            --accent: #f59e0b;
+            --dark: #134e4a;
+            --light: #ccfbf1;
+        }
+
+        .progress-ring {
+            width: 200px;
+            height: 200px;
+            margin: 2rem auto;
+        }
+
+        .progress-circle {
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+            stroke-dasharray: 565.48;
+            transition: stroke-dashoffset 0.8s ease;
+        }
+
+        .goal-card {
+            padding: 1.5rem;
+            background: white;
+            border-radius: 1rem;
+            border-left: 4px solid var(--accent);
+            margin: 1rem 0;
+        }
+
+        .timeline-visual {
+            height: 12px;
+            background: #e0e0e0;
+            border-radius: 6px;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .timeline-progress {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+          <h1>Lifestyle Utility Hub</h1>
+          <!-- Desktop Navigation -->
+          <nav class="desktop-nav">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about-us.html">About Us</a></li>
+              <li><a href="tools.html" class="active">Tools</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="privacy-policy.html">Privacy</a></li>
+              <li><a href="terms.html">Terms</a></li>
+              <li><a href="cookie-policy.html">Cookie Policy</a></li>
+            </ul>
+          </nav>
+          <!-- Mobile Hamburger Icon (Visible on Mobile Only) -->
+          <div class="mobile-menu-icon" id="mobile-menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </header>
+  
+      <!-- Full-Screen Overlay Navigation for Mobile -->
+      <div id="overlay-menu" class="overlay-menu">
+        <ul class="overlay-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="tools.html" class="active">Tools</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy-policy.html">Privacy</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="cookie-policy.html">Cookie Policy</a></li>
+        </ul>
+        <div class="overlay-close" id="overlay-close">&times;</div>
+      </div>
+
+
+    <main class="container">
+        <h1><i class="fas fa-bullseye"></i> Savings Goal Planner</h1>
+
+        <div class="calculator-wrapper">
+            <div class="input-section">
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="goalAmount">Target Amount ($)</label>
+                        <input type="number" id="goalAmount" min="100" step="100" value="10000" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="currentSavings">Current Savings ($)</label>
+                        <input type="number" id="currentSavings" min="0" step="100" value="2000">
+                    </div>
+                </div>
+
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="monthlyContribution">Monthly Savings ($)</label>
+                        <input type="number" id="monthlyContribution" min="0" step="50" value="500">
+                    </div>
+                    <div class="input-group">
+                        <label for="timeline">Goal Timeline (years)</label>
+                        <input type="number" id="timeline" min="1" max="50" value="5">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="interestRate">Annual Interest Rate (%)</label>
+                    <input type="number" id="interestRate" min="0" max="20" step="0.1" value="4">
+                </div>
+
+                <button onclick="calculateSavings()">Calculate Plan</button>
+            </div>
+
+            <div class="results-section">
+                <div class="progress-ring">
+                    <svg viewBox="0 0 200 200">
+                        <circle class="progress-circle" cx="100" cy="100" r="90" 
+                                stroke-width="10" stroke="var(--primary)" fill="none"
+                                stroke-dashoffset="565.48"/>
+                    </svg>
+                    <div class="progress-text" id="progressText">0%</div>
+                </div>
+
+                <div class="result-item">
+                    <span>Monthly Required:</span>
+                    <span id="monthlyRequired">$0.00</span>
+                </div>
+                <div class="result-item">
+                    <span>Total Interest:</span>
+                    <span id="totalInterest">$0.00</span>
+                </div>
+                <div class="result-item">
+                    <span>Achievement Date:</span>
+                    <span id="achievementDate">-</span>
+                </div>
+            </div>
+        </div>
+
+        <section class="detailed-info">
+            <div class="goal-card">
+                <h3><i class="fas fa-chart-pie"></i> Savings Breakdown</h3>
+                <div class="timeline-visual">
+                    <div class="timeline-progress" id="timelineProgress"></div>
+                </div>
+                <table id="savingsTable">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Contributions</th>
+                            <th>Interest</th>
+                            <th>Total Saved</th>
+                        </tr>
+                    </thead>
+                    <tbody id="savingsBody"></tbody>
+                </table>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3><i class="fas fa-lightbulb"></i> Savings Strategies</h3>
+                    <ul>
+                        <li>Automate transfers on payday</li>
+                        <li>Use windfalls for lump-sum contributions</li>
+                        <li>Review and adjust annually</li>
+                        <li>Separate emergency fund (3-6 months expenses)</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-percentage"></i> Compound Growth</h3>
+                    <p>How interest accelerates savings:
+                        <ul>
+                            <li>4% on $10k: $400/year</li>
+                            <li>6%: $600/year</li>
+                            <li>8%: $800/year</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <footer>
+        <div class="footer-container">
+          <div class="footer-section company">
+            <h4>Our Company</h4>
+            <p>
+              Lifestyle Utility Hub is dedicated to empowering your daily routine
+              with innovative tools and engaging content. We believe in quality,
+              simplicity, and continuous innovation to help you live your best
+              life.
+            </p>
+          </div>
+          <div class="footer-section explore">
+            <h4>Explore</h4>
+            <div class="footer-explore">
+              <a href="index.html">Home</a>
+              <a href="about-us.html">About Us</a>
+              <a href="tools.html">Tools</a>
+              <a href="blog.html">Blog</a>
+              <a href="contact.html">Contact</a>
+              <a href="privacy-policy.html">Privacy Policy</a>
+              <a href="terms.html">Terms &amp; Conditions</a>
+              <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+          </div>
+          <div class="footer-section contact">
+            <h4>Connect With Us</h4>
+            <ul>
+              <li>Email: support@lifestylehub.com</li>
+              <li>Phone: +1 800 123 4567</li>
+              <li>
+                Social:
+                <a href="#">Facebook</a> | <a href="#">Twitter</a> |
+                <a href="#">Instagram</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2025 Lifestyle Utility Hub. All rights reserved. Crafted with
+            passion and innovation.
+          </p>
+        </div>
+      </footer>
+
+
+
+    <script>
+        const circle = document.querySelector('.progress-circle');
+        const progressText = document.getElementById('progressText');
+
+        function calculateSavings() {
+            const goal = parseFloat(document.getElementById('goalAmount').value);
+            const current = parseFloat(document.getElementById('currentSavings').value);
+            const monthly = parseFloat(document.getElementById('monthlyContribution').value);
+            const years = parseFloat(document.getElementById('timeline').value);
+            const rate = parseFloat(document.getElementById('interestRate').value)/100;
+
+            // Calculate required monthly payment
+            const months = years * 12;
+            const monthlyRate = rate / 12;
+            const futureValue = goal - current;
+            
+            let requiredMonthly = 0;
+            if(rate > 0) {
+                requiredMonthly = futureValue * monthlyRate / 
+                    (Math.pow(1 + monthlyRate, months) - 1);
+            } else {
+                requiredMonthly = futureValue / months;
+            }
+
+            // Update progress
+            const progress = (current / goal) * 100;
+            const dashoffset = 565.48 * (1 - progress/100);
+            circle.style.strokeDashoffset = dashoffset;
+            progressText.textContent = `${Math.min(progress, 100).toFixed(1)}%`;
+
+            // Update timeline progress
+            document.getElementById('timelineProgress').style.width = 
+                `${Math.min((current / goal) * 100, 100)}%`;
+
+            // Generate savings table
+            generateSavingsSchedule(current, monthly, rate, months, goal);
+        }
+
+        function generateSavingsSchedule(initial, monthly, rate, months, goal) {
+            let balance = initial;
+            let tableHTML = '';
+            let yearCount = 1;
+            let yearlyContributions = 0;
+            let yearlyInterest = 0;
+
+            for(let month = 1; month <= months; month++) {
+                const interest = balance * rate/12;
+                balance += interest + monthly;
+                yearlyContributions += monthly;
+                yearlyInterest += interest;
+
+                if(month % 12 === 0) {
+                    tableHTML += `<tr>
+                        <td>${yearCount}</td>
+                        <td>$${yearlyContributions.toFixed(2)}</td>
+                        <td>$${yearlyInterest.toFixed(2)}</td>
+                        <td>$${balance.toFixed(2)}</td>
+                    </tr>`;
+                    yearCount++;
+                    yearlyContributions = 0;
+                    yearlyInterest = 0;
+                }
+
+                if(balance >= goal) break;
+            }
+
+            document.getElementById('savingsBody').innerHTML = tableHTML;
+        }
+
+        // Initial calculation
+        calculateSavings();
+    </script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog - Lifestyle Utility Hub</title>
+  <meta name="description" content="Read expert articles on lifestyle, health, finance, and more." />
+  <meta name="keywords" content="blog, lifestyle, health, finance, articles" />
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://www.lifestyleutilityhub.com/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "{search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <header>
+    <div class="header-container">
+      <h1>Lifestyle Utility Hub</h1>
+      <!-- Desktop Navigation -->
+      <nav class="desktop-nav">
+        <ul>
+          <li><a href="index.html" >Home</a></li>
+          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="tools.html">Tools</a></li>
+          <li><a href="blog.html"class="active">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy-policy.html">Privacy</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="cookie-policy.html">Cookie Policy</a></li>
+        </ul>
+      </nav>
+      <!-- Mobile Hamburger Icon (Visible on Mobile Only) -->
+      <div class="mobile-menu-icon" id="mobile-menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Full-Screen Overlay Navigation for Mobile -->
+  <div id="overlay-menu" class="overlay-menu">
+    <ul class="overlay-nav">
+      <li><a href="index.html" >Home</a></li>
+      <li><a href="about-us.html">About Us</a></li>
+      <li><a href="tools.html">Tools</a></li>
+      <li><a href="blog.html"class="active">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="privacy-policy.html">Privacy</a></li>
+      <li><a href="terms.html">Terms</a></li>
+      <li><a href="cookie-policy.html">Cookie Policy</a></li>
+    </ul>
+    <div class="overlay-close" id="overlay-close">&times;</div>
+  </div>
+
+<!-- HTML -->
+<main class="blog-main">
+  <!-- Featured Article -->
+  <section class="featured-article">
+    <div class="featured-image">
+      <img src="featured-post.jpg" alt="Healthy lifestyle" loading="lazy">
+    </div>
+    <div class="featured-content">
+      <span class="category-tag wellness">Wellness</span>
+      <h1>Transform Your Life: 30-Day Wellness Challenge</h1>
+      <div class="meta-info">
+        <div class="author">
+          <img src="author-jane.jpg" alt="Jane Smith" class="author-avatar">
+          <span>Jane Smith</span>
+        </div>
+        <time datetime="2024-03-16">March 16, 2024</time>
+      </div>
+      <p class="excerpt">Discover how small daily changes can lead to big transformations in your physical and mental well-being...</p>
+      <a href="#" class="read-more">Read Full Article →</a>
+    </div>
+  </section>
+
+  <!-- Blog Grid -->
+  <div class="blog-grid">
+    <!-- Article 1 -->
+    <article class="blog-card">
+      <div class="card-image">
+        <img src="post1.jpg" alt="Nutrition tips" loading="lazy">
+      </div>
+      <div class="card-content">
+        <span class="category-tag nutrition">Nutrition</span>
+        <h2>10 Superfoods You Should Be Eating</h2>
+        <div class="meta-info">
+          <div class="author">
+            <img src="author-john.jpg" alt="John Doe" class="author-avatar">
+            <span>John Doe</span>
+          </div>
+          <time datetime="2024-03-15">March 15, 2024</time>
+        </div>
+        <p class="excerpt">Boost your immune system with these powerful nutrient-rich foods...</p>
+        <div class="card-footer">
+          <div class="tags">
+            <a href="#" class="tag">Healthy Eating</a>
+            <a href="#" class="tag">Recipes</a>
+          </div>
+          <a href="#" class="read-more">Read More →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Article 2 -->
+    <article class="blog-card">
+      <div class="card-image">
+        <img src="post2.jpg" alt="Financial planning" loading="lazy">
+      </div>
+      <div class="card-content">
+        <span class="category-tag finance">Finance</span>
+        <h2>Smart Budgeting for Young Professionals</h2>
+        <div class="meta-info">
+          <div class="author">
+            <img src="author-mike.jpg" alt="Mike Johnson" class="author-avatar">
+            <span>Mike Johnson</span>
+          </div>
+          <time datetime="2024-03-14">March 14, 2024</time>
+        </div>
+        <p class="excerpt">Essential money management strategies to achieve financial freedom...</p>
+        <div class="card-footer">
+          <div class="tags">
+            <a href="#" class="tag">Investing</a>
+            <a href="#" class="tag">Saving</a>
+          </div>
+          <a href="#" class="read-more">Read More →</a>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="blog-sidebar">
+    <!-- Search -->
+    <div class="sidebar-widget search-widget">
+      <h3>Search Articles</h3>
+      <form class="search-form">
+        <input type="search" placeholder="Type keywords...">
+        <button type="submit">Search</button>
+      </form>
+    </div>
+
+    <!-- Categories -->
+    <div class="sidebar-widget categories-widget">
+      <h3>Categories</h3>
+      <ul class="category-list">
+        <li><a href="#" class="wellness">Wellness</a></li>
+        <li><a href="#" class="nutrition">Nutrition</a></li>
+        <li><a href="#" class="finance">Finance</a></li>
+        <li><a href="#" class="productivity">Productivity</a></li>
+      </ul>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="sidebar-widget newsletter-widget">
+      <h3>Weekly Insights</h3>
+      <p>Get our latest articles delivered to your inbox</p>
+      <form class="newsletter-form">
+        <input type="email" placeholder="Enter your email">
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </aside>
+</main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section company">
+        <h4>Our Mission</h4>
+        <p>Empowering individuals through practical tools and actionable insights for better living.</p>
+        <div class="social-links">
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            Facebook
+          </a>
+          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+            Twitter
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            Instagram
+          </a>
+        </div>
+      </div>
+      <div class="footer-section explore">
+        <h4>Quick Links</h4>
+        <div class="footer-explore">
+          <a href="tools.html">Popular Tools</a>
+          <a href="blog.html">Latest Articles</a>
+          <a href="privacy-policy.html">Privacy Commitment</a>
+          <a href="contact.html">Support</a>
+        </div>
+      </div>
+      <div class="footer-section contact">
+        <h4>Connect</h4>
+        <ul>
+          <li>📧 support@lifestylehub.com</li>
+          <li>📞 +1 800 123 4567</li>
+          <li>📍 123 Wellness Way, CA</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Lifestyle Utility Hub. All rights reserved.</p>
+      <div class="legal-links">
+        <a href="terms.html">Terms of Service</a> |
+        <a href="cookie-policy.html">Cookie Policy</a>
+      </div>
+    </div>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Lifestyle Utility Hub",
+      "url": "https://www.lifestyleutilityhub.com",
+      "logo": "https://www.lifestyleutilityhub.com/logo.png",
+      "sameAs": [
+        "https://facebook.com/example",
+        "https://twitter.com/example",
+        "https://linkedin.com/company/example"
+      ]
+    }
+    </script>
+  </footer>
+
+  <script src="scripts.js"></script>
+</body>
+</html>

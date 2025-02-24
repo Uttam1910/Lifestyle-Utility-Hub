@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Meal Planner - Lifestyle Utility Hub</title>
+    <meta name="description" content="Personalized meal planner with nutritionally balanced recipes, grocery lists, and macro tracking. Create custom meal plans for any dietary preference">
+    <style>
+        .meal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .meal-card {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        .grocery-list {
+            columns: 2;
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <h1><i class="fas fa-utensils"></i> Smart Meal Planner</h1>
+
+        <div class="calculator-wrapper">
+            <!-- Inputs: Dietary Preferences, Calorie Goal, Allergies -->
+            <!-- Results: Daily Meal Plan, Grocery List -->
+        </div>
+
+        <section class="detailed-info">
+            <div class="meal-grid" id="mealPlan"></div>
+            
+            <div class="info-card">
+                <h3><i class="fas fa-shopping-cart"></i> Grocery List</h3>
+                <div class="grocery-list" id="groceryList"></div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Meal planning logic with nutritional database
+    </script>
+</body>
+</html>

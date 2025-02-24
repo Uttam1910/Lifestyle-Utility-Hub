@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calorie & BMR Calculator - Lifestyle Utility Hub</title>
+    <meta name="description" content="Advanced calorie needs calculator with BMR, TDEE, and macro nutrient calculations. Discover your maintenance calories and weight loss/gain targets with professional metabolic analysis.">
+    <meta name="keywords" content="calorie calculator, BMR calculator, TDEE calculator, macro calculator, metabolic rate calculator">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "HowToTool",
+        "name": "Calorie and BMR Calculator",
+        "description": "Step-by-step metabolic rate analysis and calorie needs calculation",
+        "step": [
+            {
+                "@type": "HowToStep",
+                "text": "Enter your personal details including age, gender, weight and height"
+            },
+            {
+                "@type": "HowToStep",
+                "text": "Select your activity level from the provided options"
+            },
+            {
+                "@type": "HowToStep",
+                "text": "View your calculated BMR and daily calorie needs"
+            }
+        ]
+    }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --secondary: #60a5fa;
+            --accent: #10b981;
+            --dark: #1e3a8a;
+            --light: #dbeafe;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f8fafc;
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .calculator-wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .activity-levels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .activity-card {
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .activity-card.active {
+            border-color: var(--primary);
+            background: var(--light);
+        }
+
+        .macro-chart {
+            max-width: 400px;
+            margin: 2rem auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+          <h1>Lifestyle Utility Hub</h1>
+          <!-- Desktop Navigation -->
+          <nav class="desktop-nav">
+            <ul>
+              <li><a href="index.html" >Home</a></li>
+              <li><a href="about-us.html">About Us</a></li>
+              <li><a href="tools.html"class="active">Tools</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="privacy-policy.html">Privacy</a></li>
+              <li><a href="terms.html">Terms</a></li>
+              <li><a href="cookie-policy.html">Cookie Policy</a></li>
+            </ul>
+          </nav>
+          <!-- Mobile Hamburger Icon (Visible on Mobile Only) -->
+          <div class="mobile-menu-icon" id="mobile-menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </header>
+      
+      <!-- Full-Screen Overlay Navigation for Mobile -->
+      <div id="overlay-menu" class="overlay-menu">
+        <ul class="overlay-nav">
+          <li><a href="index.html" >Home</a></li>
+          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="tools.html"class="active">Tools</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy-policy.html">Privacy</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="cookie-policy.html">Cookie Policy</a></li>
+        </ul>
+        <div class="overlay-close" id="overlay-close">&times;</div>
+      </div>
+
+    <main class="container">
+        <h1><i class="fas fa-fire"></i> Calorie & BMR Calculator</h1>
+
+        <div class="calculator-wrapper">
+            <div class="input-section">
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label>Age (years)</label>
+                        <input type="number" id="age" min="15" max="100" value="30">
+                    </div>
+                    <div class="input-group">
+                        <label>Gender</label>
+                        <select id="gender">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label>Weight (kg)</label>
+                        <input type="number" id="weight" min="30" value="70">
+                    </div>
+                    <div class="input-group">
+                        <label>Height (cm)</label>
+                        <input type="number" id="height" min="100" value="170">
+                    </div>
+                </div>
+
+                <h3>Activity Level</h3>
+                <div class="activity-levels">
+                    <div class="activity-card" data-multiplier="1.2" onclick="selectActivity(this)">
+                        <h4>Sedentary</h4>
+                        <small>Little or no exercise</small>
+                    </div>
+                    <div class="activity-card" data-multiplier="1.375" onclick="selectActivity(this)">
+                        <h4>Light Active</h4>
+                        <small>Light exercise 1-3 days</small>
+                    </div>
+                    <div class="activity-card" data-multiplier="1.55" onclick="selectActivity(this)">
+                        <h4>Moderate</h4>
+                        <small>Exercise 3-5 days</small>
+                    </div>
+                    <div class="activity-card" data-multiplier="1.725" onclick="selectActivity(this)">
+                        <h4>Very Active</h4>
+                        <small>Hard exercise 6-7 days</small>
+                    </div>
+                </div>
+
+                <button onclick="calculateCalories()">Calculate</button>
+            </div>
+
+            <div class="results-section">
+                <div class="result-item">
+                    <span>BMR:</span>
+                    <span id="bmrResult">0 kcal</span>
+                </div>
+                <div class="result-item">
+                    <span>Maintenance Calories:</span>
+                    <span id="tdeeResult">0 kcal</span>
+                </div>
+                <div class="result-item">
+                    <span>Weight Loss (0.5kg/wk):</span>
+                    <span id="lossResult">0 kcal</span>
+                </div>
+                <div class="result-item">
+                    <span>Weight Gain (0.5kg/wk):</span>
+                    <span id="gainResult">0 kcal</span>
+                </div>
+
+                <div class="macro-chart">
+                    <canvas id="macroChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <section class="detailed-info">
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3><i class="fas fa-calculator"></i> BMR Formula</h3>
+                    <p>Mifflin-St Jeor Equation:
+                        <ul>
+                            <li>Men: (10 × weight) + (6.25 × height) - (5 × age) + 5</li>
+                            <li>Women: (10 × weight) + (6.25 × height) - (5 × age) - 161</li>
+                        </ul>
+                    </p>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-running"></i> Activity Multipliers</h3>
+                    <ul>
+                        <li>Sedentary: 1.2</li>
+                        <li>Light Active: 1.375</li>
+                        <li>Moderate: 1.55</li>
+                        <li>Very Active: 1.725</li>
+                        <li>Athlete: 1.9</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pro-tips">
+                <h3><i class="fas fa-lightbulb"></i> Nutrition Tips</h3>
+                <ul>
+                    <li>Aim for 0.8-1g protein per pound of body weight</li>
+                    <li>Prioritize whole foods over processed</li>
+                    <li>Stay hydrated - 3-4 liters daily</li>
+                    <li>Track intake for 2 weeks to establish baseline</li>
+                </ul>
+            </div>
+
+            <div class="calorie-equivalence">
+                <h3><i class="fas fa-utensils"></i> Food Equivalence</h3>
+                <div class="equivalence-grid">
+                    <div class="food-item">
+                        <div>🍔 Big Mac Meal</div>
+                        <div>≈ 1000 kcal</div>
+                    </div>
+                    <div class="food-item">
+                        <div>🏃♂️ 5km Run</div>
+                        <div>≈ 300 kcal</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+          <div class="footer-section company">
+            <h4>Our Company</h4>
+            <p>
+              Lifestyle Utility Hub is dedicated to empowering your daily routine with innovative tools and engaging content. We believe in quality, simplicity, and continuous innovation to help you live your best life.
+            </p>
+          </div>
+          <div class="footer-section explore">
+            <h4>Explore</h4>
+            <div class="footer-explore">
+              <a href="index.html">Home</a>
+              <a href="about-us.html">About Us</a>
+              <a href="tools.html">Tools</a>
+              <a href="blog.html">Blog</a>
+              <a href="contact.html">Contact</a>
+              <a href="privacy-policy.html">Privacy Policy</a>
+              <a href="terms.html">Terms &amp; Conditions</a>
+              <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+          </div>
+          <div class="footer-section contact">
+            <h4>Connect With Us</h4>
+            <ul>
+              <li>Email: support@lifestylehub.com</li>
+              <li>Phone: +1 800 123 4567</li>
+              <li>
+                Social:
+                <a href="#">Facebook</a> |
+                <a href="#">Twitter</a> |
+                <a href="#">Instagram</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 Lifestyle Utility Hub. All rights reserved. Crafted with passion and innovation.</p>
+        </div>
+      </footer>
+    <script>
+        let activityMultiplier = 1.2;
+        let macroChart;
+
+        function selectActivity(element) {
+            document.querySelectorAll('.activity-card').forEach(card => 
+                card.classList.remove('active'));
+            element.classList.add('active');
+            activityMultiplier = parseFloat(element.dataset.multiplier);
+            calculateCalories();
+        }
+
+        function calculateCalories() {
+            const age = parseInt(document.getElementById('age').value);
+            const gender = document.getElementById('gender').value;
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+
+            // Calculate BMR
+            let bmr;
+            if(gender === 'male') {
+                bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+            } else {
+                bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+            }
+
+            // Calculate TDEE
+            const tdee = bmr * activityMultiplier;
+            const maintenance = Math.round(tdee);
+            const weightLoss = maintenance - 500;
+            const weightGain = maintenance + 500;
+
+            // Update results
+            document.getElementById('bmrResult').textContent = `${Math.round(bmr)} kcal`;
+            document.getElementById('tdeeResult').textContent = `${maintenance} kcal`;
+            document.getElementById('lossResult').textContent = `${weightLoss} kcal`;
+            document.getElementById('gainResult').textContent = `${weightGain} kcal`;
+
+            // Update macro chart
+            updateMacroChart(tdee);
+        }
+
+        function updateMacroChart(calories) {
+            const ctx = document.getElementById('macroChart').getContext('2d');
+            const protein = (calories * 0.3) / 4;
+            const carbs = (calories * 0.4) / 4;
+            const fat = (calories * 0.3) / 9;
+
+            if(macroChart) macroChart.destroy();
+
+            macroChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Protein', 'Carbs', 'Fat'],
+                    datasets: [{
+                        data: [protein, carbs, fat],
+                        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed || 0;
+                                    return `${label}: ${Math.round(value)}g`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initial calculation
+        calculateCalories();
+    </script>
+</body>
+</html>

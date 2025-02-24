@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Budget Planner - Lifestyle Utility Hub</title>
+    <meta name="description" content="Comprehensive budget planning tool with expense tracking, category analysis, and financial health reporting. Achieve your financial goals with professional money management strategies.">
+    <meta name="keywords" content="budget planner, expense tracker, financial planning, money management, savings calculator">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FinancialService",
+        "name": "Budget Planner",
+        "description": "Interactive budget management system with visual analytics and financial recommendations",
+        "url": "https://yourdomain.com/budget-planner.html",
+        "feesAndCommissionsSpecification": "https://yourdomain.com/financial-tools"
+    }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --secondary: #60a5fa;
+            --accent: #f59e0b;
+            --dark: #1e3a8a;
+            --light: #dbeafe;
+        }
+
+        .budget-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .category-card {
+            padding: 1.5rem;
+            background: white;
+            border-radius: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .chart-container {
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+
+        .progress-container {
+            height: 12px;
+            background: #e0e0e0;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+
+        .expense-table {
+            margin: 2rem 0;
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        .category-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+          <h1>Lifestyle Utility Hub</h1>
+          <!-- Desktop Navigation -->
+          <nav class="desktop-nav">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about-us.html">About Us</a></li>
+              <li><a href="tools.html" class="active">Tools</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="privacy-policy.html">Privacy</a></li>
+              <li><a href="terms.html">Terms</a></li>
+              <li><a href="cookie-policy.html">Cookie Policy</a></li>
+            </ul>
+          </nav>
+          <!-- Mobile Hamburger Icon (Visible on Mobile Only) -->
+          <div class="mobile-menu-icon" id="mobile-menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </header>
+  
+      <!-- Full-Screen Overlay Navigation for Mobile -->
+      <div id="overlay-menu" class="overlay-menu">
+        <ul class="overlay-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="tools.html" class="active">Tools</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy-policy.html">Privacy</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="cookie-policy.html">Cookie Policy</a></li>
+        </ul>
+        <div class="overlay-close" id="overlay-close">&times;</div>
+      </div>
+
+    <main class="container">
+        <h1><i class="fas fa-wallet"></i> Smart Budget Planner</h1>
+
+        <div class="budget-grid">
+            <div class="income-section">
+                <h2>Income Sources</h2>
+                <div class="input-group">
+                    <input type="text" id="incomeSource" placeholder="Salary, Freelance, etc.">
+                    <input type="number" id="incomeAmount" placeholder="Amount">
+                    <button onclick="addIncome()"><i class="fas fa-plus"></i> Add Income</button>
+                </div>
+                <div id="incomeList" class="category-list"></div>
+            </div>
+
+            <div class="expense-section">
+                <h2>Expense Categories</h2>
+                <div class="input-group">
+                    <select id="expenseCategory">
+                        <option value="housing">Housing</option>
+                        <option value="food">Food</option>
+                        <option value="transport">Transportation</option>
+                        <option value="utilities">Utilities</option>
+                        <option value="entertainment">Entertainment</option>
+                        <option value="custom">Custom</option>
+                    </select>
+                    <input type="number" id="expenseAmount" placeholder="Amount">
+                    <button onclick="addExpense()"><i class="fas fa-plus"></i> Add Expense</button>
+                </div>
+                <div id="expenseList" class="category-list"></div>
+            </div>
+        </div>
+
+        <div class="results-section">
+            <div class="chart-container">
+                <canvas id="budgetChart"></canvas>
+            </div>
+
+            <div class="financial-summary">
+                <div class="summary-card">
+                    <h3><i class="fas fa-coins"></i> Monthly Summary</h3>
+                    <div class="result-item">
+                        <span>Total Income:</span>
+                        <span id="totalIncome">$0.00</span>
+                    </div>
+                    <div class="result-item">
+                        <span>Total Expenses:</span>
+                        <span id="totalExpenses">$0.00</span>
+                    </div>
+                    <div class="result-item">
+                        <span>Net Savings:</span>
+                        <span id="netSavings">$0.00</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="savingsProgress"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="detailed-info">
+            <div class="strategy-grid">
+                <div class="info-card">
+                    <h3><i class="fas fa-percent"></i> 50/30/20 Rule</h3>
+                    <p>Recommended budget allocation:
+                        <ul>
+                            <li>50% Needs (housing, utilities)</li>
+                            <li>30% Wants (entertainment, dining)</li>
+                            <li>20% Savings/Debt</li>
+                        </ul>
+                    </p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 50%; background: var(--primary)"></div>
+                        <div class="progress-bar" style="width: 30%; background: var(--accent)"></div>
+                        <div class="progress-bar" style="width: 20%; background: var(--secondary)"></div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-chart-pie"></i> Expense Analysis</h3>
+                    <div class="expense-table">
+                        <table id="categoryBreakdown">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Amount</th>
+                                    <th>% of Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="categoryBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pro-tips">
+                <h3><i class="fas fa-lightbulb"></i> Budgeting Strategies</h3>
+                <ul>
+                    <li>Track every expense for 30 days</li>
+                    <li>Automate savings transfers</li>
+                    <li>Review budget weekly</li>
+                    <li>Use cash envelopes for variable expenses</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-container">
+          <div class="footer-section company">
+            <h4>Our Company</h4>
+            <p>
+              Lifestyle Utility Hub is dedicated to empowering your daily routine
+              with innovative tools and engaging content. We believe in quality,
+              simplicity, and continuous innovation to help you live your best
+              life.
+            </p>
+          </div>
+          <div class="footer-section explore">
+            <h4>Explore</h4>
+            <div class="footer-explore">
+              <a href="index.html">Home</a>
+              <a href="about-us.html">About Us</a>
+              <a href="tools.html">Tools</a>
+              <a href="blog.html">Blog</a>
+              <a href="contact.html">Contact</a>
+              <a href="privacy-policy.html">Privacy Policy</a>
+              <a href="terms.html">Terms &amp; Conditions</a>
+              <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+          </div>
+          <div class="footer-section contact">
+            <h4>Connect With Us</h4>
+            <ul>
+              <li>Email: support@lifestylehub.com</li>
+              <li>Phone: +1 800 123 4567</li>
+              <li>
+                Social:
+                <a href="#">Facebook</a> | <a href="#">Twitter</a> |
+                <a href="#">Instagram</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2025 Lifestyle Utility Hub. All rights reserved. Crafted with
+            passion and innovation.
+          </p>
+        </div>
+      </footer>
+    <script>
+        let budgetChart;
+        let incomes = [];
+        let expenses = [];
+
+        function addIncome() {
+            const source = document.getElementById('incomeSource').value;
+            const amount = parseFloat(document.getElementById('incomeAmount').value);
+            
+            if(source && amount) {
+                incomes.push({ source, amount });
+                updateBudget();
+            }
+        }
+
+        function addExpense() {
+            const category = document.getElementById('expenseCategory').value;
+            const amount = parseFloat(document.getElementById('expenseAmount').value);
+            
+            if(category && amount) {
+                expenses.push({ category, amount });
+                updateBudget();
+            }
+        }
+
+        function updateBudget() {
+            // Calculate totals
+            const totalIncome = incomes.reduce((sum, i) => sum + i.amount, 0);
+            const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
+            const netSavings = totalIncome - totalExpenses;
+
+            // Update UI
+            document.getElementById('totalIncome').textContent = `$${totalIncome.toFixed(2)}`;
+            document.getElementById('totalExpenses').textContent = `$${totalExpenses.toFixed(2)}`;
+            document.getElementById('netSavings').textContent = `$${netSavings.toFixed(2)}`;
+            
+            // Update progress
+            const savingsRate = (netSavings / totalIncome) * 100 || 0;
+            document.getElementById('savingsProgress').style.width = `${savingsRate}%`;
+
+            // Update charts
+            updateChart();
+            updateCategoryBreakdown();
+        }
+
+        function updateChart() {
+            const ctx = document.getElementById('budgetChart').getContext('2d');
+            
+            if(budgetChart) budgetChart.destroy();
+            
+            budgetChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Income', 'Expenses', 'Savings'],
+                    datasets: [{
+                        data: [
+                            incomes.reduce((a,b) => a + b.amount, 0),
+                            expenses.reduce((a,b) => a + b.amount, 0),
+                            incomes.reduce((a,b) => a + b.amount, 0) - 
+                            expenses.reduce((a,b) => a + b.amount, 0)
+                        ],
+                        backgroundColor: [
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 99, 132)',
+                            'rgb(75, 192, 192)'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        function updateCategoryBreakdown() {
+            const categories = {};
+            expenses.forEach(expense => {
+                categories[expense.category] = 
+                    (categories[expense.category] || 0) + expense.amount;
+            });
+
+            const total = expenses.reduce((a,b) => a + b.amount, 0);
+            let html = '';
+            
+            for(const [category, amount] of Object.entries(categories)) {
+                const percent = ((amount / total) * 100).toFixed(1);
+                html += `<tr>
+                    <td><div class="category-color" style="background: ${getCategoryColor(category)}"></div>${category}</td>
+                    <td>$${amount.toFixed(2)}</td>
+                    <td>${percent}%</td>
+                </tr>`;
+            }
+
+            document.getElementById('categoryBody').innerHTML = html;
+        }
+
+        function getCategoryColor(category) {
+            const colors = {
+                housing: '#3b82f6',
+                food: '#10b981',
+                transport: '#f59e0b',
+                utilities: '#ef4444',
+                entertainment: '#8b5cf6',
+                custom: '#64748b'
+            };
+            return colors[category] || '#94a3b8';
+        }
+    </script>
+</body>
+</html>
