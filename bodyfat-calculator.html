@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Body Fat Calculator - Lifestyle Utility Hub</title>
+    <meta name="description" content="Professional body fat percentage calculator using U.S. Navy method with visual health indicators, fat distribution analysis, and fitness recommendations.">
+    <meta name="keywords" content="body fat calculator, body composition, navy method calculator, fitness calculator, health assessment">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "HowToTool",
+        "name": "Body Fat Calculator",
+        "description": "Accurate body fat percentage calculation using anthropometric measurements",
+        "step": [
+            {
+                "@type": "HowToStep",
+                "text": "Enter your gender, age, and body measurements"
+            },
+            {
+                "@type": "HowToStep",
+                "text": "Input weight and height information"
+            },
+            {
+                "@type": "HowToStep",
+                "text": "View your body fat percentage and health category"
+            }
+        ]
+    }
+    </script>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --secondary: #60a5fa;
+            --accent: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --danger: #dc2626;
+            --success: #16a34a;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .calculator-wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .gender-selector {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .gender-card {
+            padding: 1rem 2rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gender-card.active {
+            border-color: var(--primary);
+            background: var(--light);
+        }
+
+        .fat-gauge {
+            width: 200px;
+            height: 200px;
+            margin: 2rem auto;
+            position: relative;
+            border-radius: 50%;
+            background: conic-gradient(
+                #16a34a 0% 15%,
+                #22c55e 15% 25%,
+                #f59e0b 25% 35%,
+                #ef4444 35% 100%
+            );
+        }
+
+        .gauge-needle {
+            position: absolute;
+            width: 2px;
+            height: 45%;
+            background: var(--dark);
+            left: 50%;
+            bottom: 50%;
+            transform-origin: bottom;
+            transition: transform 0.8s ease;
+        }
+
+        .category-indicators {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+        }
+
+        .category-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+          <h1>Lifestyle Utility Hub</h1>
+          <!-- Desktop Navigation -->
+          <nav class="desktop-nav">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about-us.html">About Us</a></li>
+              <li><a href="tools.html" class="active">Tools</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="privacy-policy.html">Privacy</a></li>
+              <li><a href="terms.html">Terms</a></li>
+              <li><a href="cookie-policy.html">Cookie Policy</a></li>
+            </ul>
+          </nav>
+          <!-- Mobile Hamburger Icon (Visible on Mobile Only) -->
+          <div class="mobile-menu-icon" id="mobile-menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </header>
+  
+      <!-- Full-Screen Overlay Navigation for Mobile -->
+      <div id="overlay-menu" class="overlay-menu">
+        <ul class="overlay-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="tools.html" class="active">Tools</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy-policy.html">Privacy</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="cookie-policy.html">Cookie Policy</a></li>
+        </ul>
+        <div class="overlay-close" id="overlay-close">&times;</div>
+      </div>
+  
+
+    <main class="container">
+        <h1><i class="fas fa-weight"></i> Body Fat Calculator</h1>
+
+        <div class="calculator-wrapper">
+            <div class="input-section">
+                <div class="gender-selector">
+                    <div class="gender-card active" onclick="setGender('male')">♂ Male</div>
+                    <div class="gender-card" onclick="setGender('female')">♀ Female</div>
+                </div>
+
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label>Age (years)</label>
+                        <input type="number" id="age" min="18" max="100" value="30">
+                    </div>
+                    <div class="input-group">
+                        <label>Weight (kg)</label>
+                        <input type="number" id="weight" min="30" value="70">
+                    </div>
+                </div>
+
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label>Height (cm)</label>
+                        <input type="number" id="height" min="100" value="175">
+                    </div>
+                    <div class="input-group">
+                        <label>Waist (cm)</label>
+                        <input type="number" id="waist" value="80">
+                    </div>
+                </div>
+
+                <div class="input-grid" id="femaleInputs" style="display: none;">
+                    <div class="input-group">
+                        <label>Hip (cm)</label>
+                        <input type="number" id="hip" value="95">
+                    </div>
+                    <div class="input-group">
+                        <label>Neck (cm)</label>
+                        <input type="number" id="neck" value="35">
+                    </div>
+                </div>
+
+                <button onclick="calculateBodyFat()">Calculate</button>
+            </div>
+
+            <div class="results-section">
+                <div class="fat-gauge">
+                    <div class="gauge-needle" id="gaugeNeedle"></div>
+                </div>
+                
+                <div class="result-item">
+                    <span>Body Fat Percentage:</span>
+                    <span id="fatPercentage" style="font-size: 1.5rem; font-weight: bold;">0%</span>
+                </div>
+                
+                <div class="category-indicators">
+                    <div class="category-dot" style="background: #16a34a"></div>
+                    <div class="category-dot" style="background: #22c55e"></div>
+                    <div class="category-dot" style="background: #f59e0b"></div>
+                    <div class="category-dot" style="background: #ef4444"></div>
+                </div>
+                
+                <div id="healthCategory" class="health-status"></div>
+            </div>
+        </div>
+
+        <section class="detailed-info">
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3><i class="fas fa-calculator"></i> Navy Method Formula</h3>
+                    <p>U.S. Navy body fat equation:
+                        <ul>
+                            <li>Male: 495/(1.0324-0.19077*log(waist-neck)+0.15456*log(height)) - 450</li>
+                            <li>Female: 495/(1.29579-0.35004*log(waist+hip-neck)+0.22100*log(height)) - 450</li>
+                        </ul>
+                    </p>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-heartbeat"></i> Health Categories</h3>
+                    <div class="category-chart">
+                        <div>Essential Fat: 2-5% (M), 10-13% (F)</div>
+                        <div>Athlete: 6-13% (M), 14-20% (F)</div>
+                        <div>Fitness: 14-17% (M), 21-24% (F)</div>
+                        <div>Average: 18-24% (M), 25-31% (F)</div>
+                        <div>Obese: 25%+ (M), 32%+ (F)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pro-tips">
+                <h3><i class="fas fa-lightbulb"></i> Measurement Tips</h3>
+                <ul>
+                    <li>Measure waist at navel level</li>
+                    <li>Neck measurement below larynx</li>
+                    <li>Hip measurement at widest point</li>
+                    <li>Use flexible measuring tape</li>
+                    <li>Take measurements in the morning</li>
+                </ul>
+            </div>
+
+            <div class="visual-chart">
+                <canvas id="comparisonChart"></canvas>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-container">
+          <div class="footer-section company">
+            <h4>Our Company</h4>
+            <p>
+              Lifestyle Utility Hub is dedicated to empowering your daily routine
+              with innovative tools and engaging content. We believe in quality,
+              simplicity, and continuous innovation to help you live your best
+              life.
+            </p>
+          </div>
+          <div class="footer-section explore">
+            <h4>Explore</h4>
+            <div class="footer-explore">
+              <a href="index.html">Home</a>
+              <a href="about-us.html">About Us</a>
+              <a href="tools.html">Tools</a>
+              <a href="blog.html">Blog</a>
+              <a href="contact.html">Contact</a>
+              <a href="privacy-policy.html">Privacy Policy</a>
+              <a href="terms.html">Terms &amp; Conditions</a>
+              <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+          </div>
+          <div class="footer-section contact">
+            <h4>Connect With Us</h4>
+            <ul>
+              <li>Email: support@lifestylehub.com</li>
+              <li>Phone: +1 800 123 4567</li>
+              <li>
+                Social:
+                <a href="#">Facebook</a> | <a href="#">Twitter</a> |
+                <a href="#">Instagram</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2025 Lifestyle Utility Hub. All rights reserved. Crafted with
+            passion and innovation.
+          </p>
+        </div>
+      </footer>
+    <script>
+        let currentGender = 'male';
+
+        function setGender(gender) {
+            currentGender = gender;
+            document.querySelectorAll('.gender-card').forEach(card => 
+                card.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('femaleInputs').style.display = 
+                gender === 'female' ? 'grid' : 'none';
+        }
+
+        function calculateBodyFat() {
+            const age = parseInt(document.getElementById('age').value);
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+            const waist = parseFloat(document.getElementById('waist').value);
+            const hip = currentGender === 'female' ? 
+                parseFloat(document.getElementById('hip').value) : 0;
+            const neck = parseFloat(document.getElementById('neck').value);
+
+            // U.S. Navy method calculation
+            let bodyFat;
+            if(currentGender === 'male') {
+                bodyFat = 495 / (1.0324 - 0.19077 * Math.log10(waist - neck) + 0.15456 * Math.log10(height)) - 450;
+            } else {
+                bodyFat = 495 / (1.29579 - 0.35004 * Math.log10(waist + hip - neck) + 0.22100 * Math.log10(height)) - 450;
+            }
+
+            // Update display
+            const roundedFat = Math.round(bodyFat * 10) / 10;
+            document.getElementById('fatPercentage').textContent = `${roundedFat}%`;
+            
+            // Update gauge
+            const maxFat = currentGender === 'male' ? 40 : 45;
+            const rotation = (bodyFat / maxFat) * 180;
+            document.getElementById('gaugeNeedle').style.transform = `rotate(${rotation}deg)`;
+
+            // Update health category
+            updateHealthCategory(roundedFat);
+        }
+
+        function updateHealthCategory(percentage) {
+            const categories = {
+    male: [
+        {max: 5, label: "Essential Fat", color: '#16a34a'},
+        {max: 13, label: "Athlete", color: '#22c55e'},
+        {max: 17, label: "Fitness", color: '#f59e0b'},
+        {max: 24, label: "Average", color: '#f59e0b'},
+        {max: 100, label: "Obese", color: '#ef4444'}
+    ],
+    female: [
+        {max: 13, label: "Essential Fat", color: '#16a34a'},
+        {max: 20, label: "Athlete", color: '#22c55e'},
+        {max: 24, label: "Fitness", color: '#f59e0b'},
+        {max: 31, label: "Average", color: '#f59e0b'},
+        {max: 100, label: "Obese", color: '#ef4444'}
+    ]
+};
+
+            const category = categories[currentGender].find(c => percentage <= c.max);
+            const statusElement = document.getElementById('healthCategory');
+            statusElement.textContent = category.label;
+            statusElement.style.color = category.color;
+            statusElement.style.fontWeight = 'bold';
+        }
+
+        // Initial calculation
+        calculateBodyFat();
+    </script>
+</body>
+</html>

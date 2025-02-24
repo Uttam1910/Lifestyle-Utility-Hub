@@ -2,49 +2,327 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Meal Planner - Lifestyle Utility Hub</title>
-    <meta name="description" content="Personalized meal planner with nutritionally balanced recipes, grocery lists, and macro tracking. Create custom meal plans for any dietary preference">
+    <meta name="description" content="Personalized weekly meal planner with nutritionally balanced recipes, grocery lists, and dietary customization. Plan healthy meals for weight loss, muscle gain, or special diets.">
+    <meta name="keywords" content="meal planner, diet planner, weekly menu generator, healthy recipes, grocery list maker">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Menu",
+        "name": "Weekly Meal Plan",
+        "description": "Nutritionally balanced 7-day meal plan with recipes and shopping list",
+        "hasMenuSection": {
+            "@type": "MenuSection",
+            "name": "Healthy Meal Plan"
+        }
+    }
+    </script>
+    <link rel="stylesheet" href="styles.css" />
     <style>
-        .meal-grid {
+        :root {
+            --primary: #16a34a;
+            --secondary: #22c55e;
+            --accent: #f59e0b;
+            --dark: #14532d;
+            --light: #dcfce7;
+        }
+
+        .meal-plan-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
             margin: 2rem 0;
         }
 
-        .meal-card {
+        .day-card {
             background: white;
             border-radius: 1rem;
-            overflow: hidden;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .meal-category {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 0.5rem;
         }
 
         .grocery-list {
-            columns: 2;
+            column-count: 3;
             margin: 2rem 0;
+        }
+
+        .diet-filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .diet-filter {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--primary);
+            border-radius: 2rem;
+            cursor: pointer;
+        }
+
+        .recipe-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .recipe-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
         }
     </style>
 </head>
 <body>
+    <header>
+        <div class="header-container">
+          <h1>Lifestyle Utility Hub</h1>
+          <!-- Desktop Navigation -->
+          <nav class="desktop-nav">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about-us.html">About Us</a></li>
+              <li><a href="tools.html" class="active">Tools</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="privacy-policy.html">Privacy</a></li>
+              <li><a href="terms.html">Terms</a></li>
+              <li><a href="cookie-policy.html">Cookie Policy</a></li>
+            </ul>
+          </nav>
+          <!-- Mobile Hamburger Icon (Visible on Mobile Only) -->
+          <div class="mobile-menu-icon" id="mobile-menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </header>
+  
+      <!-- Full-Screen Overlay Navigation for Mobile -->
+      <div id="overlay-menu" class="overlay-menu">
+        <ul class="overlay-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="tools.html" class="active">Tools</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy-policy.html">Privacy</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="cookie-policy.html">Cookie Policy</a></li>
+        </ul>
+        <div class="overlay-close" id="overlay-close">&times;</div>
+      </div>
+
     <main class="container">
         <h1><i class="fas fa-utensils"></i> Smart Meal Planner</h1>
 
         <div class="calculator-wrapper">
-            <!-- Inputs: Dietary Preferences, Calorie Goal, Allergies -->
-            <!-- Results: Daily Meal Plan, Grocery List -->
+            <div class="input-section">
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label>Daily Calories Goal</label>
+                        <input type="number" id="calories" min="1200" value="2000">
+                    </div>
+                    <div class="input-group">
+                        <label>Diet Type</label>
+                        <select id="dietType">
+                            <option value="balanced">Balanced</option>
+                            <option value="keto">Keto</option>
+                            <option value="vegetarian">Vegetarian</option>
+                            <option value="vegan">Vegan</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="diet-filters">
+                    <div class="diet-filter" data-allergy="dairy">🥛 Dairy Free</div>
+                    <div class="diet-filter" data-allergy="gluten">🌾 Gluten Free</div>
+                    <div class="diet-filter" data-allergy="nuts">🥜 Nut Free</div>
+                </div>
+
+                <button onclick="generateMealPlan()">Generate Plan</button>
+            </div>
+
+            <div class="results-section">
+                <h3>7-Day Meal Plan</h3>
+                <div class="meal-plan-grid" id="mealPlan">
+                    <!-- Generated meal cards will appear here -->
+                </div>
+
+                <h3>Grocery List</h3>
+                <div class="grocery-list" id="groceryList"></div>
+            </div>
         </div>
 
         <section class="detailed-info">
-            <div class="meal-grid" id="mealPlan"></div>
-            
-            <div class="info-card">
-                <h3><i class="fas fa-shopping-cart"></i> Grocery List</h3>
-                <div class="grocery-list" id="groceryList"></div>
+            <div class="nutrition-guide">
+                <h3><i class="fas fa-book-open"></i> Meal Planning Strategies</h3>
+                <div class="strategy-grid">
+                    <div class="info-card">
+                        <h4>Batch Cooking Tips</h4>
+                        <ul>
+                            <li>Prepare proteins in bulk</li>
+                            <li>Pre-cut vegetables</li>
+                            <li>Use freezer-friendly meals</li>
+                        </ul>
+                    </div>
+                    <div class="info-card">
+                        <h4>Portion Control</h4>
+                        <ul>
+                            <li>Use measuring cups</li>
+                            <li>Plate meals in kitchen</li>
+                            <li>20% protein, 30% carbs, 50% veggies</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pro-tips">
+                <h3><i class="fas fa-seedling"></i> Healthy Eating Tips</h3>
+                <ul>
+                    <li>Include protein in every meal</li>
+                    <li>Choose whole grains over refined</li>
+                    <li>Healthy fats: avocado, nuts, olive oil</li>
+                    <li>Stay hydrated with water/herbal teas</li>
+                </ul>
             </div>
         </section>
-    </main>
 
+        <div class="recipe-modal" id="recipeModal">
+            <div class="recipe-card" id="recipeContent"></div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-container">
+          <div class="footer-section company">
+            <h4>Our Company</h4>
+            <p>
+              Lifestyle Utility Hub is dedicated to empowering your daily routine
+              with innovative tools and engaging content. We believe in quality,
+              simplicity, and continuous innovation to help you live your best
+              life.
+            </p>
+          </div>
+          <div class="footer-section explore">
+            <h4>Explore</h4>
+            <div class="footer-explore">
+              <a href="index.html">Home</a>
+              <a href="about-us.html">About Us</a>
+              <a href="tools.html">Tools</a>
+              <a href="blog.html">Blog</a>
+              <a href="contact.html">Contact</a>
+              <a href="privacy-policy.html">Privacy Policy</a>
+              <a href="terms.html">Terms &amp; Conditions</a>
+              <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+          </div>
+          <div class="footer-section contact">
+            <h4>Connect With Us</h4>
+            <ul>
+              <li>Email: support@lifestylehub.com</li>
+              <li>Phone: +1 800 123 4567</li>
+              <li>
+                Social:
+                <a href="#">Facebook</a> | <a href="#">Twitter</a> |
+                <a href="#">Instagram</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2025 Lifestyle Utility Hub. All rights reserved. Crafted with
+            passion and innovation.
+          </p>
+        </div>
+      </footer>
     <script>
-        // Meal planning logic with nutritional database
+        const sampleMeals = {
+            breakfast: [
+                { name: "Oatmeal Bowl", calories: 350, ingredients: ["oats", "almond milk", "berries"] },
+                { name: "Avocado Toast", calories: 400, ingredients: ["whole grain bread", "avocado", "egg"] }
+            ],
+            lunch: [
+                { name: "Grilled Chicken Salad", calories: 500, ingredients: ["chicken breast", "mixed greens", "olive oil"] },
+                { name: "Quinoa Bowl", calories: 450, ingredients: ["quinoa", "roasted veggies", "feta"] }
+            ]
+        };
+
+        function generateMealPlan() {
+            const calories = document.getElementById('calories').value;
+            const diet = document.getElementById('dietType').value;
+            
+            let html = '';
+            for(let day = 1; day <= 7; day++) {
+                html += `
+                <div class="day-card">
+                    <h4>Day ${day}</h4>
+                    <div class="meal-category">
+                        <h5>Breakfast</h5>
+                        <div class="meal-option" onclick="showRecipe('${sampleMeals.breakfast[0].name}')">
+                            ${sampleMeals.breakfast[0].name} (${sampleMeals.breakfast[0].calories} kcal)
+                        </div>
+                    </div>
+                    <div class="meal-category">
+                        <h5>Lunch</h5>
+                        <div class="meal-option" onclick="showRecipe('${sampleMeals.lunch[0].name}')">
+                            ${sampleMeals.lunch[0].name} (${sampleMeals.lunch[0].calories} kcal)
+                        </div>
+                    </div>
+                </div>`;
+            }
+            document.getElementById('mealPlan').innerHTML = html;
+            updateGroceryList();
+        }
+
+        function updateGroceryList() {
+            const ingredients = new Set();
+            document.querySelectorAll('.meal-option').forEach(meal => {
+                sampleMeals.breakfast.concat(sampleMeals.lunch).forEach(m => {
+                    m.ingredients.forEach(i => ingredients.add(i));
+                });
+            });
+            document.getElementById('groceryList').innerHTML = 
+                Array.from(ingredients).map(i => `<div>${i}</div>`).join('');
+        }
+
+        function showRecipe(mealName) {
+            const recipeContent = `
+                <h3>${mealName} Recipe</h3>
+                <h4>Ingredients:</h4>
+                <ul>${sampleMeals.breakfast[0].ingredients.map(i => `<li>${i}</li>`).join('')}</ul>
+                <h4>Instructions:</h4>
+                <ol>
+                    <li>Prepare ingredients</li>
+                    <li>Cook according to standard methods</li>
+                    <li>Serve immediately</li>
+                </ol>
+                <button onclick="document.getElementById('recipeModal').style.display = 'none'">Close</button>
+            `;
+            document.getElementById('recipeContent').innerHTML = recipeContent;
+            document.getElementById('recipeModal').style.display = 'flex';
+        }
+
+        // Initial generation
+        generateMealPlan();
     </script>
 </body>
 </html>

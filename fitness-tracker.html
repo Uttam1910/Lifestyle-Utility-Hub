@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Activity Tracker - Lifestyle Utility Hub</title>
+    <meta name="description" content="Comprehensive fitness tracker with workout logging, activity analysis, and progress visualization. Monitor exercises, set goals, and track your fitness journey with professional insights.">
+    <meta name="keywords" content="fitness tracker, workout log, exercise tracker, activity monitor, gym progress tracker">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ExercisePlan",
+        "name": "Fitness Activity Tracker",
+        "description": "Digital workout tracking and fitness progress monitoring system",
+        "activityFrequency": "Daily",
+        "category": "Fitness"
+    }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #3b82f6;
+            --accent: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+
+        .fitness-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .workout-log {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .activity-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+            margin: 2rem 0;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            background: #e2e8f0;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .calendar-day.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .exercise-card {
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: var(--light);
+            border-radius: 0.5rem;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+        }
+
+        .metric-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .metric-card {
+            padding: 1.5rem;
+            background: white;
+            border-radius: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+          <h1>Lifestyle Utility Hub</h1>
+          <!-- Desktop Navigation -->
+          <nav class="desktop-nav">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about-us.html">About Us</a></li>
+              <li><a href="tools.html" class="active">Tools</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="privacy-policy.html">Privacy</a></li>
+              <li><a href="terms.html">Terms</a></li>
+              <li><a href="cookie-policy.html">Cookie Policy</a></li>
+            </ul>
+          </nav>
+          <!-- Mobile Hamburger Icon (Visible on Mobile Only) -->
+          <div class="mobile-menu-icon" id="mobile-menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </header>
+  
+      <!-- Full-Screen Overlay Navigation for Mobile -->
+      <div id="overlay-menu" class="overlay-menu">
+        <ul class="overlay-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="tools.html" class="active">Tools</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy-policy.html">Privacy</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="cookie-policy.html">Cookie Policy</a></li>
+        </ul>
+        <div class="overlay-close" id="overlay-close">&times;</div>
+      </div>
+
+    <main class="container">
+        <h1><i class="fas fa-running"></i> Fitness Tracker</h1>
+
+        <div class="calculator-wrapper">
+            <div class="input-section">
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label>Exercise Type</label>
+                        <select id="exerciseType">
+                            <option value="weightlifting">🏋️ Weight Training</option>
+                            <option value="cardio">🏃 Cardio</option>
+                            <option value="yoga">🧘 Yoga</option>
+                            <option value="cycling">🚴 Cycling</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Duration (minutes)</label>
+                        <input type="number" id="duration" min="5" max="180" value="30">
+                    </div>
+                </div>
+
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label>Intensity Level</label>
+                        <select id="intensity">
+                            <option value="light">Light</option>
+                            <option value="moderate" selected>Moderate</option>
+                            <option value="vigorous">Vigorous</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Calories Burned</label>
+                        <input type="number" id="calories" readonly>
+                    </div>
+                </div>
+
+                <button onclick="logWorkout()">Log Workout</button>
+            </div>
+
+            <div class="results-section">
+                <div class="metric-cards">
+                    <div class="metric-card">
+                        <div class="metric-value" id="totalWorkouts">0</div>
+                        <div class="metric-label">Workouts</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="totalMinutes">0</div>
+                        <div class="metric-label">Minutes</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="totalCalories">0</div>
+                        <div class="metric-label">Calories</div>
+                    </div>
+                </div>
+
+                <div class="fitness-grid">
+                    <div class="workout-log" id="workoutLog">
+                        <h3>Recent Activities</h3>
+                        <!-- Workout items will be added here -->
+                    </div>
+                    <div class="activity-chart">
+                        <canvas id="activityChart"></canvas>
+                    </div>
+                </div>
+
+                <h3>Monthly Activity</h3>
+                <div class="activity-calendar" id="activityCalendar"></div>
+            </div>
+        </div>
+
+        <section class="detailed-info">
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3><i class="fas fa-dumbbell"></i> Exercise Library</h3>
+                    <div class="exercise-list">
+                        <div class="exercise-item">
+                            <h4>Weight Training</h4>
+                            <ul>
+                                <li>Compound exercises first</li>
+                                <li>3-4 sets of 8-12 reps</li>
+                                <li>Rest 60-90 seconds between sets</li>
+                            </ul>
+                        </div>
+                        <div class="exercise-item">
+                            <h4>Cardio Training</h4>
+                            <ul>
+                                <li>Maintain target heart rate</li>
+                                <li>Combine HIIT and LISS</li>
+                                <li>Proper cool-down essential</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-chart-line"></i> Progress Tracking</h3>
+                    <ul>
+                        <li>Weekly strength increases</li>
+                        <li>Resting heart rate trends</li>
+                        <li>Body measurements tracking</li>
+                        <li>Workout consistency rate</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pro-tips">
+                <h3><i class="fas fa-lightbulb"></i> Fitness Tips</h3>
+                <ul>
+                    <li>Warm up for 5-10 minutes</li>
+                    <li>Focus on proper form</li>
+                    <li>Gradually increase weights</li>
+                    <li>Allow recovery days</li>
+                    <li>Stay hydrated</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-container">
+          <div class="footer-section company">
+            <h4>Our Company</h4>
+            <p>
+              Lifestyle Utility Hub is dedicated to empowering your daily routine
+              with innovative tools and engaging content. We believe in quality,
+              simplicity, and continuous innovation to help you live your best
+              life.
+            </p>
+          </div>
+          <div class="footer-section explore">
+            <h4>Explore</h4>
+            <div class="footer-explore">
+              <a href="index.html">Home</a>
+              <a href="about-us.html">About Us</a>
+              <a href="tools.html">Tools</a>
+              <a href="blog.html">Blog</a>
+              <a href="contact.html">Contact</a>
+              <a href="privacy-policy.html">Privacy Policy</a>
+              <a href="terms.html">Terms &amp; Conditions</a>
+              <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+          </div>
+          <div class="footer-section contact">
+            <h4>Connect With Us</h4>
+            <ul>
+              <li>Email: support@lifestylehub.com</li>
+              <li>Phone: +1 800 123 4567</li>
+              <li>
+                Social:
+                <a href="#">Facebook</a> | <a href="#">Twitter</a> |
+                <a href="#">Instagram</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2025 Lifestyle Utility Hub. All rights reserved. Crafted with
+            passion and innovation.
+          </p>
+        </div>
+      </footer>
+    <script>
+        let workouts = JSON.parse(localStorage.getItem('workouts')) || [];
+        let activityChart;
+
+        // Initialize calendar
+        function initCalendar() {
+            const calendar = document.getElementById('activityCalendar');
+            calendar.innerHTML = '';
+            
+            for(let i = 1; i <= 31; i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day';
+                day.textContent = i;
+                if(workouts.some(w => w.day === i)) day.classList.add('active');
+                calendar.appendChild(day);
+            }
+        }
+
+        function calculateCalories() {
+            const type = document.getElementById('exerciseType').value;
+            const duration = document.getElementById('duration').value;
+            const intensity = document.getElementById('intensity').value;
+            
+            // Simplified calorie calculation
+            const multipliers = { light: 3, moderate: 5, vigorous: 8 };
+            document.getElementById('calories').value = 
+                duration * multipliers[intensity];
+        }
+
+        function logWorkout() {
+            const workout = {
+                date: new Date().toLocaleDateString(),
+                type: document.getElementById('exerciseType').value,
+                duration: document.getElementById('duration').value,
+                calories: document.getElementById('calories').value,
+                day: new Date().getDate()
+            };
+
+            workouts.push(workout);
+            localStorage.setItem('workouts', JSON.stringify(workouts));
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            // Update metrics
+            document.getElementById('totalWorkouts').textContent = workouts.length;
+            document.getElementById('totalMinutes').textContent = 
+                workouts.reduce((sum, w) => sum + parseInt(w.duration), 0);
+            document.getElementById('totalCalories').textContent = 
+                workouts.reduce((sum, w) => sum + parseInt(w.calories), 0);
+
+            // Update workout log
+            const log = document.getElementById('workoutLog');
+            log.innerHTML = '<h3>Recent Activities</h3>' + 
+                workouts.slice(-5).reverse().map(w => `
+                    <div class="exercise-card">
+                        <div>
+                            <strong>${w.type}</strong><br>
+                            ${w.duration} mins • ${w.calories} kcal
+                        </div>
+                        <small>${w.date}</small>
+                    </div>
+                `).join('');
+
+            // Update chart
+            updateChart();
+            initCalendar();
+        }
+
+        function updateChart() {
+            const ctx = document.getElementById('activityChart').getContext('2d');
+            const labels = ['Weight', 'Cardio', 'Yoga', 'Cycling'];
+            const data = labels.map(l => 
+                workouts.filter(w => w.type === l.toLowerCase()).length
+            );
+
+            if(activityChart) activityChart.destroy();
+            
+            activityChart = new Chart(ctx, {
+                type: 'polarArea',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: [
+                            'rgba(37, 99, 235, 0.8)',
+                            'rgba(245, 158, 11, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(220, 38, 38, 0.8)'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        // Event listeners
+        document.getElementById('duration').addEventListener('input', calculateCalories);
+        document.getElementById('intensity').addEventListener('change', calculateCalories);
+        document.getElementById('exerciseType').addEventListener('change', calculateCalories);
+
+        // Initial setup
+        calculateCalories();
+        updateDisplay();
+    </script>
+</body>
+</html>

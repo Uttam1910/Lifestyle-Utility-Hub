@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Hydration Calculator - Lifestyle Utility Hub</title>
+    <meta name="description" content="Advanced water intake calculator with personalized hydration goals, intake reminders, and dehydration prevention tips. Calculate your optimal daily water needs based on weight, activity, and environment.">
+    <meta name="keywords" content="water calculator, hydration calculator, daily water intake, fluid intake calculator, dehydration prevention">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "HowToTool",
+        "name": "Water Intake Calculator",
+        "description": "Personalized daily hydration needs calculator with tracking features",
+        "step": [
+            {
+                "@type": "HowToStep",
+                "text": "Enter your weight and physical characteristics"
+            },
+            {
+                "@type": "HowToStep",
+                "text": "Select your activity level and climate conditions"
+            },
+            {
+                "@type": "HowToStep",
+                "text": "Receive personalized hydration recommendations"
+            }
+        ]
+    }
+    </script>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --secondary: #60a5fa;
+            --accent: #06b6d4;
+            --dark: #1e3a8a;
+            --light: #dbeafe;
+        }
+
+        .hydration-visual {
+            width: 200px;
+            height: 300px;
+            background: #e0f2fe;
+            border-radius: 1rem;
+            margin: 2rem auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .water-level {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: var(--primary);
+            transition: height 0.8s ease;
+        }
+
+        .intake-schedule {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .time-card {
+            padding: 1rem;
+            background: white;
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+
+        .bottle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .bottle-icon {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+          <h1>Lifestyle Utility Hub</h1>
+          <!-- Desktop Navigation -->
+          <nav class="desktop-nav">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about-us.html">About Us</a></li>
+              <li><a href="tools.html" class="active">Tools</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="privacy-policy.html">Privacy</a></li>
+              <li><a href="terms.html">Terms</a></li>
+              <li><a href="cookie-policy.html">Cookie Policy</a></li>
+            </ul>
+          </nav>
+          <!-- Mobile Hamburger Icon (Visible on Mobile Only) -->
+          <div class="mobile-menu-icon" id="mobile-menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </header>
+  
+      <!-- Full-Screen Overlay Navigation for Mobile -->
+      <div id="overlay-menu" class="overlay-menu">
+        <ul class="overlay-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="tools.html" class="active">Tools</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy-policy.html">Privacy</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="cookie-policy.html">Cookie Policy</a></li>
+        </ul>
+        <div class="overlay-close" id="overlay-close">&times;</div>
+      </div>
+
+    <main class="container">
+        <h1><i class="fas fa-tint"></i> Water Intake Calculator</h1>
+
+        <div class="calculator-wrapper">
+            <div class="input-section">
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label>Weight (kg)</label>
+                        <input type="number" id="weight" min="30" value="70">
+                    </div>
+                    <div class="input-group">
+                        <label>Activity Level</label>
+                        <select id="activity">
+                            <option value="sedentary">Sedentary</option>
+                            <option value="moderate">Moderately Active</option>
+                            <option value="active">Very Active</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label>Climate</label>
+                        <select id="climate">
+                            <option value="temperate">Temperate</option>
+                            <option value="hot">Hot/Humid</option>
+                            <option value="arid">Dry/Arid</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Pregnancy</label>
+                        <select id="pregnancy">
+                            <option value="none">Not Pregnant</option>
+                            <option value="pregnant">Pregnant</option>
+                            <option value="breastfeeding">Breastfeeding</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button onclick="calculateHydration()">Calculate Needs</button>
+            </div>
+
+            <div class="results-section">
+                <div class="hydration-visual">
+                    <div class="water-level" id="waterLevel"></div>
+                </div>
+                
+                <div class="result-item">
+                    <span>Daily Water Needs:</span>
+                    <span id="dailyAmount">0 L</span>
+                </div>
+                <div class="result-item">
+                    <span>Hourly Intake Goal:</span>
+                    <span id="hourlyAmount">0 ml</span>
+                </div>
+                <div class="result-item">
+                    <span>Bottle Equivalents:</span>
+                    <span id="bottleCount">0 x 500ml</span>
+                </div>
+
+                <h3>Optimal Hydration Schedule</h3>
+                <div class="intake-schedule" id="hydrationSchedule"></div>
+            </div>
+        </div>
+
+        <section class="detailed-info">
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3><i class="fas fa-calculator"></i> Calculation Formula</h3>
+                    <p>Our algorithm considers:
+                        <ul>
+                            <li>Base requirement: 35ml/kg</li>
+                            <li>Activity adjustment: +300-500ml</li>
+                            <li>Climate adjustment: +200-500ml</li>
+                            <li>Pregnancy needs: +300-1000ml</li>
+                        </ul>
+                    </p>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Dehydration Signs</h3>
+                    <ul>
+                        <li>Dark yellow urine</li>
+                        <li>Dry mouth/skin</li>
+                        <li>Fatigue/Headache</li>
+                        <li>Dizziness</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pro-tips">
+                <h3><i class="fas fa-lightbulb"></i> Hydration Tips</h3>
+                <ul>
+                    <li>Start day with 2 glasses of water</li>
+                    <li>Drink before feeling thirsty</li>
+                    <li>Monitor urine color</li>
+                    <li>Increase intake during exercise</li>
+                    <li>Balance electrolytes in hot climates</li>
+                </ul>
+            </div>
+
+            <div class="bottle-grid">
+                <div class="bottle-card">
+                    <div class="bottle-icon">🥤</div>
+                    <div>500ml Bottles</div>
+                </div>
+                <div class="bottle-card">
+                    <div class="bottle-icon">🏺</div>
+                    <div>1L Containers</div>
+                </div>
+                <div class="bottle-card">
+                    <div class="bottle-icon">🍶</div>
+                    <div>250ml Glasses</div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-container">
+          <div class="footer-section company">
+            <h4>Our Company</h4>
+            <p>
+              Lifestyle Utility Hub is dedicated to empowering your daily routine
+              with innovative tools and engaging content. We believe in quality,
+              simplicity, and continuous innovation to help you live your best
+              life.
+            </p>
+          </div>
+          <div class="footer-section explore">
+            <h4>Explore</h4>
+            <div class="footer-explore">
+              <a href="index.html">Home</a>
+              <a href="about-us.html">About Us</a>
+              <a href="tools.html">Tools</a>
+              <a href="blog.html">Blog</a>
+              <a href="contact.html">Contact</a>
+              <a href="privacy-policy.html">Privacy Policy</a>
+              <a href="terms.html">Terms &amp; Conditions</a>
+              <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+          </div>
+          <div class="footer-section contact">
+            <h4>Connect With Us</h4>
+            <ul>
+              <li>Email: support@lifestylehub.com</li>
+              <li>Phone: +1 800 123 4567</li>
+              <li>
+                Social:
+                <a href="#">Facebook</a> | <a href="#">Twitter</a> |
+                <a href="#">Instagram</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2025 Lifestyle Utility Hub. All rights reserved. Crafted with
+            passion and innovation.
+          </p>
+        </div>
+      </footer>
+    <script>
+        function calculateHydration() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const activity = document.getElementById('activity').value;
+            const climate = document.getElementById('climate').value;
+            const pregnancy = document.getElementById('pregnancy').value;
+
+            // Base calculation (35ml per kg)
+            let baseWater = weight * 35;
+
+            // Activity adjustments
+            const activityMultipliers = {
+                sedentary: 0,
+                moderate: 300,
+                active: 500
+            };
+            baseWater += activityMultipliers[activity];
+
+            // Climate adjustments
+            const climateAdjustments = {
+                temperate: 0,
+                hot: 500,
+                arid: 700
+            };
+            baseWater += climateAdjustments[climate];
+
+            // Pregnancy adjustments
+            const pregnancyAdjustments = {
+                none: 0,
+                pregnant: 300,
+                breastfeeding: 1000
+            };
+            baseWater += pregnancyAdjustments[pregnancy];
+
+            // Convert to liters and update display
+            const dailyLitres = baseWater / 1000;
+            const hourlyML = Math.round(baseWater / 16);
+            const bottles500 = Math.round(baseWater / 500);
+
+            document.getElementById('dailyAmount').textContent = `${dailyLitres.toFixed(1)} L`;
+            document.getElementById('hourlyAmount').textContent = `${hourlyML} ml`;
+            document.getElementById('bottleCount').textContent = `${bottles500} x 500ml`;
+
+            // Update water level visualization
+            const maxIntake = 4000; // 4L max visualization
+            const waterHeight = (baseWater / maxIntake) * 100;
+            document.getElementById('waterLevel').style.height = `${Math.min(waterHeight, 100)}%`;
+
+            // Generate hydration schedule
+            generateSchedule(baseWater);
+        }
+
+        function generateSchedule(totalML) {
+            const intervals = 8;
+            const intervalAmount = Math.round(totalML / intervals);
+            const startTime = 7;
+            let html = '';
+
+            for(let i = 0; i < intervals; i++) {
+                const time = startTime + (i * 2);
+                html += `
+                    <div class="time-card">
+                        <div>${time}:00</div>
+                        <div>${intervalAmount}ml</div>
+                    </div>
+                `;
+            }
+            document.getElementById('hydrationSchedule').innerHTML = html;
+        }
+
+        // Initial calculation
+        calculateHydration();
+    </script>
+</body>
+</html>

@@ -1,5 +1,6 @@
-
-/* Global Reset & Root Variables */
+/* ========================================================================
+   1. Global Reset & Root Variables
+======================================================================== */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -17,11 +18,15 @@
   --link-hover-color: #bfd5e2;
 }
 
-/* Base Styles */
+
+/* ========================================================================
+   2. Base Styles & Typography
+======================================================================== */
 html {
   scroll-behavior: smooth;
   min-height: 100%;
 }
+
 body {
   font-family: 'Roboto', sans-serif;
   background-color: var(--light-bg);
@@ -32,23 +37,33 @@ body {
   min-height: 100vh;
 }
 
-/* Link Styles */
+
+/* ========================================================================
+   3. Link Styles
+======================================================================== */
 a {
   text-decoration: none;
   color: var(--link-color);
   transition: color 0.3s ease;
 }
+
 a:hover {
   color: var(--link-hover-color);
 }
 
-/* Header & Navigation */
+
+/* ========================================================================
+   4. Header & Navigation
+======================================================================== */
+
+/* Header */
 header {
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   color: var(--white);
   padding: 1.5rem 0;
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
+
 .header-container {
   width: 90%;
   max-width: 1100px;
@@ -57,25 +72,28 @@ header {
   flex-direction: column;
   align-items: center;
 }
+
 header h1 {
   font-size: 2.8rem;
   margin-bottom: 0.5rem;
 }
 
-
-/* Desktop Navigation - Visible on larger screens */
+/* Desktop Navigation */
 .desktop-nav {
   display: flex;
 }
+
 .desktop-nav ul {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
+
 .desktop-nav ul li {
   margin: 0 1rem;
 }
+
 .desktop-nav ul li a {
   color: var(--white, #fff);
   font-weight: 500;
@@ -83,12 +101,14 @@ header h1 {
   border-bottom: 2px solid transparent;
   transition: border-color 0.3s ease;
 }
+
 .desktop-nav ul li a:hover,
 .desktop-nav ul li a.active {
   border-bottom: 2px solid var(--accent-color, #62b6cb);
 }
 
-/* Mobile Navigation - Hamburger Icon */
+
+/* Mobile Navigation */
 .mobile-menu-icon {
   display: none;
   cursor: pointer;
@@ -99,6 +119,7 @@ header h1 {
   right: 20px;
   z-index: 1500;
 }
+
 .mobile-menu-icon span {
   display: block;
   width: 25px;
@@ -109,7 +130,7 @@ header h1 {
 
 /* Overlay Menu for Mobile */
 .overlay-menu {
-  display: none; /* Hidden by default */
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -120,10 +141,12 @@ header h1 {
   opacity: 0;
   transition: opacity 0.3s ease;
 }
+
 .overlay-menu.active {
   display: block;
   opacity: 1;
 }
+
 .overlay-nav {
   list-style: none;
   position: absolute;
@@ -134,18 +157,22 @@ header h1 {
   width: 80%;
   max-width: 400px;
 }
+
 .overlay-nav li {
   margin: 1rem 0;
 }
+
 .overlay-nav li a {
   color: #fff;
   font-size: 2rem;
   text-decoration: none;
   transition: color 0.3s ease;
 }
+
 .overlay-nav li a:hover {
   color: var(--accent-color, #62b6cb);
 }
+
 .overlay-close {
   position: absolute;
   top: 20px;
@@ -156,11 +183,15 @@ header h1 {
   transition: color 0.3s ease;
   z-index: 2100;
 }
+
 .overlay-close:hover {
   color: var(--accent-color, #62b6cb);
 }
 
-/* Media Queries */
+
+/* ========================================================================
+   5. Media Queries for Navigation
+======================================================================== */
 @media (max-width: 768px) {
   .desktop-nav {
     display: none;
@@ -171,10 +202,9 @@ header h1 {
 }
 
 
-
-
-
-
+/* ========================================================================
+   6. Main Content Styles
+======================================================================== */
 
 /* Main Content Container */
 .container {
@@ -193,15 +223,18 @@ header h1 {
   text-align: center;
   margin-bottom: 2rem;
 }
+
 .hero h2 {
   font-size: 2.8rem;
   margin-bottom: 1rem;
   color: var(--primary-color);
 }
+
 .hero p {
   font-size: 1.3rem;
   margin-bottom: 1.5rem;
 }
+
 .btn {
   background: var(--secondary-color);
   color: var(--white);
@@ -212,6 +245,7 @@ header h1 {
   transition: background 0.3s ease;
   font-size: 1rem;
 }
+
 .btn:hover {
   background: var(--primary-color);
 }
@@ -224,6 +258,7 @@ header h1 {
   justify-content: center;
   margin-bottom: 2rem;
 }
+
 .features article {
   flex: 1;
   min-width: 250px;
@@ -234,22 +269,26 @@ header h1 {
   text-align: center;
   transition: transform 0.3s ease;
 }
+
 .features article:hover {
   transform: translateY(-4px);
 }
+
 .features article h3 {
   margin-bottom: 0.5rem;
   color: var(--primary-color);
   font-size: 1.5rem;
 }
+
 .features article p {
   margin-bottom: 1rem;
   font-size: 1rem;
 }
 
-/* New Styles for Unified Headings and Tool Links */
 
-/* Section Headings */
+/* ========================================================================
+   7. Unified Headings & Tool Links
+======================================================================== */
 main.container h2 {
   font-size: 28px;
   margin-bottom: 20px;
@@ -298,16 +337,467 @@ main.container h3 {
 }
 
 
-/* Blog Section */
-.blog-post {
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #ddd;
+/* ========================================================================
+   8. Blog & Articles Section
+======================================================================== */
+
+/* Main Blog Container */
+.blog-container {
+  max-width: 1440px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 2.5rem;
 }
-.blog-post h3 {
-  color: var(--primary-color);
+
+/* Featured Post */
+.featured-post {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  background: #f9fafb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.featured-image-wrapper {
+  flex: 1 1 60%;
+  min-height: 400px;
+}
+
+.featured-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.featured-content {
+  flex: 1 1 40%;
+  padding: 2.5rem;
+}
+
+.featured-title {
+  font-size: 2.25rem;
+  margin: 1rem 0;
+  line-height: 1.3;
+  color: #1f2937;
+}
+
+.featured-excerpt {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #4b5563;
+  margin-bottom: 1.5rem;
+}
+
+/* Blog Grid */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.blog-post-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+
+.blog-post-card:hover {
+  transform: translateY(-4px);
+}
+
+.blog-image-wrapper {
+  height: 200px;
+  overflow: hidden;
+}
+
+.blog-featured-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.blog-post-card:hover .blog-featured-image {
+  transform: scale(1.05);
+}
+
+.blog-content {
+  padding: 1.5rem;
+}
+
+.blog-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.blog-category {
+  font-weight: 500;
+  text-transform: uppercase;
+  color: #3b82f6;
+}
+
+.blog-post-title {
+  font-size: 1.5rem;
+  margin: 0.5rem 0;
+  line-height: 1.4;
+  color: #1f2937;
+}
+
+.blog-excerpt {
+  color: #4b5563;
+  line-height: 1.6;
+  margin: 1rem 0;
+}
+
+/* Author Info & Tags */
+.blog-author {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.author-image {
+  border-radius: 50%;
+  border: 2px solid #e5e7eb;
+}
+
+.author-name {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.author-bio {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.blog-tags {
+  margin: 1rem 0;
+}
+
+.tags-list {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+}
+
+.tags-list a {
+  display: block;
+  padding: 0.25rem 0.75rem;
+  background: #f3f4f6;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: #374151;
+  text-decoration: none;
+}
+
+.tags-list a:hover {
+  background: #e5e7eb;
+}
+
+/* Social Sharing */
+.social-sharing {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+.social-sharing a {
+  color: #4b5563;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.social-sharing a:hover {
+  color: #3b82f6;
+}
+
+/* Blog Main & Featured Article */
+.blog-main {
+  max-width: 1440px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 2.5rem;
+}
+
+.featured-article {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  background: #ffffff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  margin-bottom: 3rem;
+}
+
+.featured-image {
+  position: relative;
+  min-height: 400px;
+}
+
+.featured-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.featured-content {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.featured-content h1 {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  margin: 1rem 0;
+  color: #1a1a1a;
+}
+
+/* Blog Card */
+.blog-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-5px);
+}
+
+.card-image {
+  height: 220px;
+  overflow: hidden;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.blog-card:hover .card-image img {
+  transform: scale(1.05);
+}
+
+.card-content {
+  padding: 1.5rem;
+}
+
+.card-content h2 {
+  font-size: 1.5rem;
+  margin: 1rem 0;
+  color: #1a1a1a;
+}
+
+/* Category Tags */
+.category-tag {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.wellness { background: #c7f0db; color: #0f5132; }
+.nutrition { background: #ffe08e; color: #664d03; }
+.finance { background: #d0e3ff; color: #052c65; }
+
+/* Meta Info */
+.meta-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.author-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Additional Tags */
+.tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  background: #f3f4f6;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: #374151;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.tag:hover {
+  background: #e5e7eb;
+}
+
+/* Read More Link */
+.read-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.read-more:hover {
+  color: #1d4ed8;
+}
+
+
+/* ========================================================================
+   9. Sidebar
+======================================================================== */
+.blog-sidebar {
+  padding-left: 2rem;
+  border-left: 1px solid #eee;
+}
+
+.sidebar-widget {
+  margin-bottom: 2.5rem;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+.sidebar-widget h3 {
+  margin: 0 0 1.5rem;
+  font-size: 1.25rem;
+  color: #1a1a1a;
+}
+
+
+/* ========================================================================
+   10. Contact & Forms
+======================================================================== */
+
+/* Main Container (Contact) */
+.container {
+  /* max-width: 800px; */
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Styles */
+form fieldset {
+  border: none;
+  margin-bottom: 1.5rem;
+}
+
+form legend {
+  font-size: 1.2rem;
   margin-bottom: 0.5rem;
-  font-size: 1.6rem;
+  color: #2563eb;
+}
+
+form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+form input[type="text"],
+form input[type="email"],
+form select,
+form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  transition: border-color 0.3s;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+form button[type="submit"] {
+  padding: 0.75rem 1.5rem;
+  background-color: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+form button[type="submit"]:hover {
+  background-color: #1a4fb3;
+}
+
+/* Newsletter Form */
+.newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.newsletter-form input {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.newsletter-form button {
+  padding: 0.75rem;
+  background: #10b981;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 /* Forms (Contact, Newsletter, etc.) */
@@ -317,6 +807,7 @@ form label {
   font-weight: 500;
   font-size: 1rem;
 }
+
 form input[type="text"],
 form input[type="email"],
 form textarea {
@@ -327,6 +818,7 @@ form textarea {
   border-radius: 4px;
   font-size: 1rem;
 }
+
 form button {
   margin-top: 1rem;
   background: var(--secondary-color);
@@ -337,11 +829,15 @@ form button {
   cursor: pointer;
   transition: background 0.3s ease;
 }
+
 form button:hover {
   background: var(--primary-color);
 }
 
-/* Sticky Footer */
+
+/* ========================================================================
+   11. Footer
+======================================================================== */
 footer {
   background: var(--primary-color);
   color: var(--white);
@@ -349,6 +845,7 @@ footer {
   font-size: 0.9rem;
   margin-top: auto;
 }
+
 .footer-container {
   width: 90%;
   max-width: 1100px;
@@ -364,6 +861,7 @@ footer {
   flex: 1;
   min-width: 250px;
 }
+
 .footer-section h4 {
   margin-bottom: 1rem;
   font-weight: 600;
@@ -387,19 +885,22 @@ footer {
   padding: 0;
   text-align: left;
 }
+
 .footer-section.contact ul li {
   margin-bottom: 0.5rem;
   font-size: 0.9rem;
 }
+
 .footer-section.contact ul li a {
   color: #d1e8f2;
   transition: color 0.3s ease;
 }
+
 .footer-section.contact ul li a:hover {
   color: #fff;
 }
 
-/* Explore Section with Two-Column Layout */
+/* Explore Section */
 .footer-section.explore .footer-explore {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -407,6 +908,7 @@ footer {
   margin-top: 0.5rem;
   text-align: left;
 }
+
 .footer-section.explore .footer-explore a {
   color: #d1e8f2;
   font-size: 0.9rem;
@@ -415,6 +917,7 @@ footer {
   transition: background 0.3s ease, color 0.3s ease;
   text-align: left;
 }
+
 .footer-section.explore .footer-explore a:hover {
   background: var(--accent-color);
   color: var(--white);
@@ -428,7 +931,10 @@ footer {
   padding-top: 1rem;
 }
 
-/* Responsive Adjustments */
+
+/* ========================================================================
+   12. Responsive Adjustments (General)
+======================================================================== */
 @media (max-width: 768px) {
   header h1 {
     font-size: 2rem;
@@ -448,3 +954,573 @@ footer {
   }
 }
 
+
+/* ========================================================================
+   13. About Page Specific Styles
+======================================================================== */
+
+/* About Hero */
+.about-hero {
+  text-align: center;
+  padding: 4rem 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  margin-bottom: 3rem;
+}
+
+.about-hero h1 {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+  color: #2d3436;
+}
+
+.about-hero .subtitle {
+  font-size: 1.2rem;
+  color: #636e72;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Story Section */
+.about-section {
+  padding: 3rem 0;
+}
+
+.story-text {
+  max-width: 1200px;
+  margin: 0 auto;
+  line-height: 1.7;
+  color: #4a4a4a;
+}
+
+.story-image {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  border-radius: 8px;
+  margin: 2rem auto;
+  display: block;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Mission Grid */
+.mission-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 3rem 0;
+}
+
+.mission-card {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.mission-card:hover {
+  transform: translateY(-5px);
+}
+
+.mission-card img {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 1rem;
+}
+
+/* Values Section */
+.values-section {
+  padding: 4rem 0;
+  background: #f8f9fa;
+}
+
+.values-section h2 {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.value-item {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  border-left: 4px solid #74b9ff;
+  transition: all 0.3s ease;
+}
+
+.value-item:hover {
+  transform: translateX(10px);
+  box-shadow: 0 8px 25px rgba(116, 185, 255, 0.15);
+}
+
+/* Team Section */
+.team-section {
+  padding: 4rem 0;
+}
+
+.team-section h2 {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.team-member {
+  text-align: center;
+}
+
+.team-member img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.team-member img:hover {
+  transform: scale(1.05);
+}
+
+.bio {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Achievements */
+.achievements {
+  padding: 3rem 0;
+}
+
+.achievement-badges {
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+  flex-wrap: wrap;
+}
+
+.badge {
+  text-align: center;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 8px;
+  min-width: 150px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.badge .number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2d3436;
+}
+
+.badge .label {
+  color: #636e72;
+  font-size: 0.9rem;
+}
+
+
+/* ========================================================================
+   14. Solo About Page Styles
+======================================================================== */
+
+/* About Hero for Solo */
+.about-hero {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: #f8f9fa;
+  margin-bottom: 2rem;
+}
+
+.about-hero h1 {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  color: #2d3436;
+}
+
+.subtitle {
+  color: #636e72;
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Founder Section */
+.solo-story {
+  padding: 2rem 0;
+}
+
+.founder-card {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.founder-photo {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.founder-bio {
+  text-align: center;
+}
+
+.role {
+  color: #74b9ff;
+  font-weight: 500;
+  margin: 1rem 0;
+}
+
+/* Principles Grid */
+.philosophy {
+  padding: 3rem 0;
+  background: #fff;
+}
+
+.philosophy h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.principles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.principle {
+  padding: 1.5rem;
+  border-radius: 8px;
+  background: #f8f9fa;
+  text-align: center;
+}
+
+.principle h3 {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+/* Milestones */
+.milestone-tracker {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem 0;
+}
+
+.milestone {
+  text-align: center;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.milestone .number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2d3436;
+}
+
+.milestone .number span {
+  font-size: 1.2rem;
+}
+
+/* Commitment Section */
+.commitment {
+  padding: 3rem 1rem;
+}
+
+.commitment-card {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.commitment-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.commitment-list li {
+  padding: 0.8rem;
+  background: #fff;
+  border-radius: 5px;
+}
+
+/* Solo CTA */
+.solo-cta {
+  text-align: center;
+  padding: 3rem 1rem;
+  margin-top: 2rem;
+  background: #74b9ff;
+  border-radius: 10px;
+  color: white;
+}
+
+.solo-cta h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+
+/* ========================================================================
+   15. Responsive Design for About & Solo Sections
+======================================================================== */
+@media (min-width: 768px) {
+  .founder-card {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+  }
+  
+  .founder-photo {
+    margin: 0;
+    flex: 0 0 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-hero h1 {
+    font-size: 1.8rem;
+  }
+  
+  .principle h3 {
+    font-size: 1rem;
+  }
+}
+
+
+/* ========================================================================
+   16. Additional Styles
+======================================================================== */
+.pseudonym {
+  font-family: 'Courier New', monospace;
+  color: #2d3436;
+  position: relative;
+  display: inline-block;
+}
+
+.pseudonym::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #74b9ff 0%, #a363d9 100%);
+}
+
+.developer-avatar {
+  filter: grayscale(100%) contrast(120%);
+  border: 3px solid #e0e0e0;
+}
+
+
+
+
+
+
+/* Privacy Policy Specific Styles */
+.privacy-policy {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+.privacy-section {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #eee;
+}
+
+.effective-date {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.definition-list h3 {
+  color: #2c3e50;
+  margin-top: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.usage-list,
+.adsense-info ul {
+  list-style-type: square;
+  padding-left: 1.5rem;
+  line-height: 1.6;
+}
+
+.adsense-info {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 6px;
+  margin: 1rem 0;
+}
+
+.contact-section address {
+  font-style: normal;
+  line-height: 1.6;
+  margin-top: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .privacy-policy {
+    padding: 1rem;
+    margin: 1rem;
+  }
+  
+  .privacy-section {
+    margin-bottom: 2rem;
+  }
+}
+
+
+
+/* Terms & Conditions Specific Styles */
+.terms-conditions {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+.terms-section {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #eee;
+}
+
+.disclaimer-box {
+  background: #fff3f3;
+  border-left: 4px solid #ff6b6b;
+  padding: 1.5rem;
+  margin: 1rem 0;
+}
+
+.definition-list h3 {
+  color: #2c3e50;
+  margin-top: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.contact-section address {
+  font-style: normal;
+  line-height: 1.6;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .terms-conditions {
+    padding: 1rem;
+    margin: 1rem;
+  }
+  
+  .terms-section {
+    margin-bottom: 2rem;
+  }
+}
+
+
+
+
+/* Cookie Policy Specific Styles */
+.cookie-policy {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+.cookie-section {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #eee;
+}
+
+.cookie-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.cookie-table th,
+.cookie-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.cookie-table th {
+  background-color: #f8f9fa;
+}
+
+.third-party-links li {
+  margin: 0.5rem 0;
+}
+
+.manage-preferences {
+  background: #2c3e50;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.consent-management ul {
+  list-style-type: circle;
+  padding-left: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .cookie-policy {
+    padding: 1rem;
+    margin: 1rem;
+  }
+  
+  .cookie-table table {
+    display: block;
+    overflow-x: auto;
+  }
+}
