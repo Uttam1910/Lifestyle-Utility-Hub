@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -476,4 +477,484 @@
         }
     </script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Mortgage Calculator - Lifestyle Utility Hub</title>
+    <meta name="description" content="Comprehensive mortgage calculator with amortization schedule, extra payments analysis, PMI calculations, and tax estimates. Compare loan options and optimize your home financing.">
+    <meta name="keywords" content="mortgage calculator, home loan calculator, amortization schedule, mortgage payoff calculator, refinance calculator">
+    <meta name="author" content="Lifestyle Utility Hub">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css" />
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "MortgageLoan",
+        "name": "Mortgage Calculator",
+        "description": "Interactive mortgage payment calculator with detailed amortization and financial analysis",
+        "url": "https://yourdomain.com/mortgage-calculator.html",
+        "feesAndCommissionsSpecification": "https://yourdomain.com/mortgage-fees",
+        "requiredCollateral": "Real estate property"
+    }
+    </script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #3b82f6;
+            --accent: #10b981;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1, h2, h3 {
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Calculator Section */
+        .calculator-wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            margin: 2rem 0;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+            outline: none;
+        }
+
+        .range-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Results Section */
+        .results-section {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 2px solid #e2e8f0;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* Detailed Info Section */
+        .mortgage-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .comparison-card {
+            padding: 1.5rem;
+            background: white;
+            border-radius: 1rem;
+            border-left: 4px solid var(--accent);
+        }
+
+        .amortization-table {
+            overflow-x: auto;
+            margin: 2rem 0;
+            background: white;
+            border-radius: 1rem;
+            padding: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: right;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: var(--light);
+            font-weight: 500;
+        }
+
+        @media (min-width: 768px) {
+            .calculator-wrapper {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            h1 {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+          <h1>Lifestyle Utility Hub</h1>
+          <!-- Desktop Navigation -->
+          <nav class="desktop-nav">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about-us.html">About Us</a></li>
+              <li><a href="tools.html" class="active">Tools</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="privacy-policy.html">Privacy</a></li>
+              <li><a href="terms.html">Terms</a></li>
+              <li><a href="cookie-policy.html">Cookie Policy</a></li>
+            </ul>
+          </nav>
+          <!-- Mobile Hamburger Icon (Visible on Mobile Only) -->
+          <div class="mobile-menu-icon" id="mobile-menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </header>
+  
+      <!-- Full-Screen Overlay Navigation for Mobile -->
+      <div id="overlay-menu" class="overlay-menu">
+        <ul class="overlay-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="tools.html" class="active">Tools</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy-policy.html">Privacy</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="cookie-policy.html">Cookie Policy</a></li>
+        </ul>
+        <div class="overlay-close" id="overlay-close">&times;</div>
+      </div>
+
+    <main class="container">
+        <h1><i class="fas fa-home"></i> Mortgage Calculator</h1>
+
+        <div class="calculator-wrapper">
+            <div class="input-section">
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="homePrice">Home Price ($)</label>
+                        <input type="number" id="homePrice" min="100000" step="10000" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="downPayment">Down Payment ($)</label>
+                        <input type="number" id="downPayment" min="0" step="5000" required>
+                    </div>
+                </div>
+
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="loanTerm">Loan Term (years)</label>
+                        <select id="loanTerm">
+                            <option value="15">15 Year Fixed</option>
+                            <option value="30" selected>30 Year Fixed</option>
+                            <option value="10">10 Year Fixed</option>
+                            <option value="20">20 Year Fixed</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="interestRate">Interest Rate (%)</label>
+                        <input type="number" id="interestRate" min="2" max="20" step="0.125" value="4.5" required>
+                    </div>
+                </div>
+
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="propertyTax">Annual Property Tax ($)</label>
+                        <input type="number" id="propertyTax" min="0" step="100" value="2500">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="homeInsurance">Annual Home Insurance ($)</label>
+                        <input type="number" id="homeInsurance" min="0" step="100" value="1200">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="pmi">PMI (%)</label>
+                    <input type="number" id="pmi" min="0" max="2" step="0.1" value="0.5">
+                    <small>Private Mortgage Insurance (if down payment < 20%)</small>
+                </div>
+
+                <button onclick="calculateMortgage()">Calculate Payments</button>
+            </div>
+
+            <div class="results-section">
+                <h3>Payment Breakdown</h3>
+                <div class="result-item">
+                    <span>Monthly Payment:</span>
+                    <span id="monthlyPayment">$0.00</span>
+                </div>
+                <div class="result-item">
+                    <span>Principal & Interest:</span>
+                    <span id="principalInterest">$0.00</span>
+                </div>
+                <div class="result-item">
+                    <span>Taxes & Insurance:</span>
+                    <span id="taxesInsurance">$0.00</span>
+                </div>
+                <div class="result-item">
+                    <span>Total Interest Paid:</span>
+                    <span id="totalInterest">$0.00</span>
+                </div>
+                <div class="result-item">
+                    <span>Total Payments:</span>
+                    <span id="totalPayments">$0.00</span>
+                </div>
+            </div>
+        </div>
+
+        <section class="detailed-info">
+            <div class="mortgage-comparison">
+                <div class="comparison-card">
+                    <h3><i class="fas fa-percentage"></i> Rate Impact Analysis</h3>
+                    <p>How interest rates affect payments:
+                        <ul>
+                            <li>4% vs 5% on $300k loan:
+                                <br>$143 vs $214 monthly difference
+                            </li>
+                            <li>Total interest difference: $64,000</li>
+                        </ul>
+                    </p>
+                </div>
+
+                <div class="comparison-card">
+                    <h3><i class="fas fa-money-bill-wave"></i> Down Payment Options</h3>
+                    <p>Common down payment strategies:
+                        <ul>
+                            <li>3.5% (FHA Loan)</li>
+                            <li>10% (Conventional)</li>
+                            <li>20% (Avoid PMI)</li>
+                            <li>VA Loans: 0% down</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+
+            <div class="amortization-table">
+                <h3>Amortization Schedule</h3>
+                <table id="amortizationTable">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Principal Paid</th>
+                            <th>Interest Paid</th>
+                            <th>Remaining Balance</th>
+                            <th>Equity</th>
+                        </tr>
+                    </thead>
+                    <tbody id="amortizationBody">
+                        <!-- JS will populate -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pro-tips">
+                <h3><i class="fas fa-lightbulb"></i> Mortgage Expert Tips</h3>
+                <ul>
+                    <li>Consider bi-weekly payments to save 5-8 years</li>
+                    <li>Refinance when rates drop 1%+</li>
+                    <li>Extra payments reduce total interest dramatically</li>
+                    <li>Compare APR not just interest rates</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+          <div class="footer-section company">
+            <h4>Our Company</h4>
+            <p>
+              Lifestyle Utility Hub is dedicated to empowering your daily routine
+              with innovative tools and engaging content. We believe in quality,
+              simplicity, and continuous innovation to help you live your best
+              life.
+            </p>
+          </div>
+          <div class="footer-section explore">
+            <h4>Explore</h4>
+            <div class="footer-explore">
+              <a href="index.html">Home</a>
+              <a href="about-us.html">About Us</a>
+              <a href="tools.html">Tools</a>
+              <a href="blog.html">Blog</a>
+              <a href="contact.html">Contact</a>
+              <a href="privacy-policy.html">Privacy Policy</a>
+              <a href="terms.html">Terms &amp; Conditions</a>
+              <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+          </div>
+          <div class="footer-section contact">
+            <h4>Connect With Us</h4>
+            <ul>
+              <li>Email: support@lifestylehub.com</li>
+              <li>Phone: +1 800 123 4567</li>
+              <li>
+                Social:
+                <a href="#">Facebook</a> | <a href="#">Twitter</a> |
+                <a href="#">Instagram</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2025 Lifestyle Utility Hub. All rights reserved. Crafted with
+            passion and innovation.
+          </p>
+        </div>
+      </footer>
+
+    <script>
+        function calculateMortgage() {
+            // Input values
+            const homePrice = parseFloat(document.getElementById('homePrice').value);
+            const downPayment = parseFloat(document.getElementById('downPayment').value);
+            const loanTerm = parseInt(document.getElementById('loanTerm').value);
+            const interestRate = parseFloat(document.getElementById('interestRate').value)/100;
+            const propertyTax = parseFloat(document.getElementById('propertyTax').value)/12;
+            const homeInsurance = parseFloat(document.getElementById('homeInsurance').value)/12;
+            const pmi = parseFloat(document.getElementById('pmi').value)/100;
+
+            // Loan calculations
+            const loanAmount = homePrice - downPayment;
+            const monthlyRate = interestRate / 12;
+            const payments = loanTerm * 12;
+            
+            // Mortgage payment formula
+            const mortgagePayment = loanAmount * 
+                (monthlyRate * Math.pow(1 + monthlyRate, payments)) / 
+                (Math.pow(1 + monthlyRate, payments) - 1);
+
+            // PMI calculation
+            const pmiPayment = (downPayment < (homePrice * 0.2)) ? 
+                (loanAmount * pmi)/12 : 0;
+
+            // Total monthly payment
+            const totalMonthly = mortgagePayment + propertyTax + homeInsurance + pmiPayment;
+
+            // Update results
+            document.getElementById('monthlyPayment').textContent = `$${totalMonthly.toFixed(2)}`;
+            document.getElementById('principalInterest').textContent = `$${mortgagePayment.toFixed(2)}`;
+            document.getElementById('taxesInsurance').textContent = `$${(propertyTax + homeInsurance).toFixed(2)}`;
+
+            // Generate amortization schedule
+            generateAmortization(loanAmount, monthlyRate, payments, mortgagePayment);
+        }
+
+        function generateAmortization(principal, monthlyRate, payments, monthlyPayment) {
+            let balance = principal;
+            let html = '';
+            let year = 1;
+            let totalPrincipal = 0;
+            let totalInterest = 0;
+
+            for(let month = 1; month <= payments; month++) {
+                const interest = balance * monthlyRate;
+                const principalPaid = monthlyPayment - interest;
+                balance -= principalPaid;
+                
+                totalPrincipal += principalPaid;
+                totalInterest += interest;
+
+                if(month % 12 === 0) {
+                    html += `<tr>
+                        <td>${year}</td>
+                        <td>$${totalPrincipal.toFixed(2)}</td>
+                        <td>$${totalInterest.toFixed(2)}</td>
+                        <td>$${balance.toFixed(2)}</td>
+                        <td>${((totalPrincipal / (totalPrincipal + balance)) * 100).toFixed(1)}%</td>
+                    </tr>`;
+                    year++;
+                    totalPrincipal = 0;
+                    totalInterest = 0;
+                }
+            }
+
+            document.getElementById('amortizationBody').innerHTML = html;
+        }
+    </script>
+</body>
+>>>>>>> 8ee1e8d5cd429a214c8e076e4a411bceed103a4b
 </html>

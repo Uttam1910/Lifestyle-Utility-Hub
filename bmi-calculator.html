@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -213,4 +214,221 @@
         }
     </script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator with Health Analysis - Lifestyle Utility Hub</title>
+    <meta name="description" content="Comprehensive BMI calculator with body fat analysis, health risk assessment, and personalized recommendations. Track your wellness journey effectively.">
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        /* Modern CSS Variables */
+        :root {
+            --health: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --chart: #3b82f6;
+        }
+
+        .bmi-calculator {
+            background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        .bmi-visual {
+            height: 8px;
+            background: linear-gradient(90deg, 
+                var(--danger) 0% 15%,
+                var(--warning) 15% 35%,
+                var(--health) 35% 100%
+            );
+            border-radius: 4px;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .bmi-marker {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 3px solid var(--chart);
+            position: absolute;
+            top: -6px;
+            border-radius: 50%;
+            transition: left 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+          <h1>Lifestyle Utility Hub</h1>
+          <!-- Desktop Navigation -->
+          <nav class="desktop-nav">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about-us.html">About Us</a></li>
+              <li><a href="tools.html" class="active">Tools</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="privacy-policy.html">Privacy</a></li>
+              <li><a href="terms.html">Terms</a></li>
+              <li><a href="cookie-policy.html">Cookie Policy</a></li>
+            </ul>
+          </nav>
+          <!-- Mobile Hamburger Icon (Visible on Mobile Only) -->
+          <div class="mobile-menu-icon" id="mobile-menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </header>
+  
+      <!-- Full-Screen Overlay Navigation for Mobile -->
+      <div id="overlay-menu" class="overlay-menu">
+        <ul class="overlay-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="tools.html" class="active">Tools</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy-policy.html">Privacy</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="cookie-policy.html">Cookie Policy</a></li>
+        </ul>
+        <div class="overlay-close" id="overlay-close">&times;</div>
+      </div>
+  
+    <main class="container">
+        <div class="bmi-calculator">
+            <h1>Body Mass Index (BMI) Calculator</h1>
+            <div class="input-group">
+                <label>Height (cm)</label>
+                <input type="number" id="height" min="100" max="250">
+            </div>
+            <div class="input-group">
+                <label>Weight (kg)</label>
+                <input type="number" id="weight" min="30" max="300">
+            </div>
+            <button onclick="calculateBMI()">Analyze Health</button>
+            
+            <div class="bmi-visual">
+                <div class="bmi-marker" id="bmiMarker"></div>
+            </div>
+            
+            <div id="bmiResults"></div>
+        </div>
+
+        <section class="detailed-info">
+            <div class="info-grid">
+                <!-- BMI Categories Card -->
+                <div class="info-card">
+                    <h3><i class="fas fa-weight-scale"></i> BMI Categories</h3>
+                    <ul>
+                        <li>Underweight: < 18.5</li>
+                        <li>Normal: 18.5 - 24.9</li>
+                        <li>Overweight: 25 - 29.9</li>
+                        <li>Obesity: ≥ 30</li>
+                    </ul>
+                </div>
+                
+                <!-- Health Risks Card -->
+                <div class="info-card">
+                    <h3><i class="fas fa-heart-pulse"></i> Health Risks</h3>
+                    <p>Higher BMI correlates with:
+                        <ul>
+                            <li>Cardiovascular diseases</li>
+                            <li>Type 2 diabetes</li>
+                            <li>Musculoskeletal disorders</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-container">
+          <div class="footer-section company">
+            <h4>Our Company</h4>
+            <p>
+              Lifestyle Utility Hub is dedicated to empowering your daily routine
+              with innovative tools and engaging content. We believe in quality,
+              simplicity, and continuous innovation to help you live your best
+              life.
+            </p>
+          </div>
+          <div class="footer-section explore">
+            <h4>Explore</h4>
+            <div class="footer-explore">
+              <a href="index.html">Home</a>
+              <a href="about-us.html">About Us</a>
+              <a href="tools.html">Tools</a>
+              <a href="blog.html">Blog</a>
+              <a href="contact.html">Contact</a>
+              <a href="privacy-policy.html">Privacy Policy</a>
+              <a href="terms.html">Terms &amp; Conditions</a>
+              <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+          </div>
+          <div class="footer-section contact">
+            <h4>Connect With Us</h4>
+            <ul>
+              <li>Email: support@lifestylehub.com</li>
+              <li>Phone: +1 800 123 4567</li>
+              <li>
+                Social:
+                <a href="#">Facebook</a> | <a href="#">Twitter</a> |
+                <a href="#">Instagram</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2025 Lifestyle Utility Hub. All rights reserved. Crafted with
+            passion and innovation.
+          </p>
+        </div>
+      </footer>
+    <script>
+        function calculateBMI() {
+            const height = document.getElementById('height').value/100;
+            const weight = document.getElementById('weight').value;
+            const bmi = weight/(height*height);
+            
+            const marker = document.getElementById('bmiMarker');
+            let position = ((bmi - 15)/20) * 100; // Scale 15-35 BMI
+            marker.style.left = `calc(${Math.min(Math.max(position,0),100)}% - 10px)`;
+
+            let category = '';
+            if(bmi < 18.5) category = 'Underweight';
+            else if(bmi < 25) category = 'Healthy';
+            else if(bmi < 30) category = 'Overweight';
+            else category = 'Obese';
+
+            document.getElementById('bmiResults').innerHTML = `
+                <div class="result-card ${category.toLowerCase()}">
+                    <h3>BMI: ${bmi.toFixed(1)} (${category})</h3>
+                    <p>Recommended action: ${getRecommendation(category)}</p>
+                </div>
+            `;
+        }
+
+        function getRecommendation(cat) {
+            const recommendations = {
+                'Underweight': 'Consult nutritionist, increase calorie intake',
+                'Healthy': 'Maintain current lifestyle with regular exercise',
+                'Overweight': 'Moderate diet changes + 150 mins exercise/week',
+                'Obese': 'Medical consultation recommended'
+            };
+            return recommendations[cat];
+        }
+    </script>
+</body>
+>>>>>>> 8ee1e8d5cd429a214c8e076e4a411bceed103a4b
 </html>
